@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light bg-light">
+<nav class="navbar navbar-expand-md navbar-light bg-main shadow-lg">
   <div class="container">
     <a class="navbar-brand" routerLink="login">Navbar</a>
     <button
@@ -14,13 +14,23 @@
     </button>
     <div class="collapse navbar-collapse" id="collapsibleNavId">
       <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" routerLink="login" aria-current="page"
+        <!-- <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="login" aria-current="page"
             >Login <span class="visually-hidden">(current)</span></a
           >
+        </li> -->
+        <li>
+          <button class="btn btn-login" routerLink="login">
+            Login
+          </button>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="register">Register</a>
+        <!-- <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="register">Register</a>
+        </li> -->
+        <li>
+          <button class="btn btn-register" routerLink="register">
+            Register
+          </button>
         </li>
       </ul>
     </div>

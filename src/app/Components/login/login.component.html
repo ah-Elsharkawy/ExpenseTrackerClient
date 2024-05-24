@@ -1,1 +1,118 @@
-<p>login works!</p>
+<div class="row">
+  <div class="col-md-6">
+    <img
+      class="img-fluid h-100"
+      src="assets/Images/form.png"
+      alt="Sample image"
+    />
+  </div>
+  <div class="col-md-6">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <h1 class="text-muted mb-3">Sign In</h1>
+
+      <!-- Email input -->
+      <div class="form-group mb-3">
+        <label for="email">Email address</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          formControlName="email"
+        />
+        <div
+          class="text-danger p-1 small"
+          *ngIf="
+            loginForm.get('email')?.errors && loginForm.get('email')?.touched
+          "
+        >
+          <p class="mb-0" *ngIf="loginForm.get('email')?.getError('required')">
+            Your email is required
+          </p>
+          <p class="mb-0" *ngIf="loginForm.get('email')?.getError('email')">
+            Your email is invalid
+          </p>
+        </div>
+      </div>
+
+      <!-- Password input -->
+      <div class="form-group mb-3 position-relative">
+        <label for="password">Password</label>
+        <input
+          [type]="isShowPassword ? 'text' : 'password'"
+          class="form-control"
+          id="password"
+          formControlName="password"
+        />
+        <span (click)="handlePass('password')" class="eye position-absolute">
+          <i [ngClass]="isShowPassword ? 'fa fa-eye' : 'fa fa-eye-slash'"></i>
+        </span>
+        <div
+          class="text-danger p-1 small"
+          *ngIf="
+            loginForm.get('password')?.errors &&
+            loginForm.get('password')?.touched
+          "
+        >
+          <p
+            class="mb-0"
+            *ngIf="loginForm.get('password')?.getError('required')"
+          >
+            Your password is required
+          </p>
+          <p
+            class="mb-0"
+            *ngIf="loginForm.get('password')?.getError('minlength')"
+          >
+            Your password must be more than 6 characters
+          </p>
+        </div>
+      </div>
+
+      <!-- Checkbox -->
+      <!-- <div class="form-check d-flex justify-content-start mb-3">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value=""
+          id="rememberPassword"
+        />
+        <label class="form-check-label" for="rememberPassword">
+          Remember password
+        </label>
+      </div> -->
+
+      <!-- Forgot password link -->
+      <div class="my-3">
+        <a href="#" class="text-body">Forgot password?</a>
+      </div>
+
+      <!-- Buttons -->
+      <div class="">
+        <button type="submit" class="btn btn-color w-100">Login</button>
+      </div>
+
+      <!-- Social login buttons -->
+      <!-- <div class="text-center mt-4">
+        <hr class="my-4" />
+        <button class="btn btn-lg btn-block btn-danger mb-2" type="button">
+          <i class="fab fa-google me-2"></i> Sign in with Google
+        </button>
+        <button
+          class="btn btn-lg btn-block btn-primary mb-2"
+          type="button"
+          style="background-color: #3b5998"
+        >
+          <i class="fab fa-facebook-f me-2"></i> Sign in with Facebook
+        </button>
+      </div> -->
+
+      <!-- Sign up link -->
+      <div class="text-center mt-3">
+        <p>
+          Not registered?
+          <a routerLink="/register" class="signup-link">Sign up now</a>
+        </p>
+      </div>
+    </form>
+  </div>
+</div>
