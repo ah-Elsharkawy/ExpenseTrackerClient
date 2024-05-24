@@ -1,0 +1,31 @@
+.eye {
+  top: 30px;
+  right: 10px;
+  cursor: pointer;
+}
+input:focus {
+  box-shadow: none;
+}
+input.ng-invalid.ng-touched {
+  border: 2px solid red;
+}
+input.ng-valid.ng-touched {
+  border: 2px solid green;
+}
+.btn-color {
+  background-color: #0E46A3;
+  color : #ffffff;
+}
+input {
+  border : 1px solid #0E46A3;
+}
+
+.signup-link {
+  font-weight: bold;
+  color: #0E46A3;
+  text-decoration: underline;
+}
+.signup-link:hover {
+  color: #0056b3;
+  text-decoration: none;
+}

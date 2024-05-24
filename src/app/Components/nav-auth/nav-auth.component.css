@@ -1,0 +1,27 @@
+.bg-main {
+  background-color: #ffffff;
+}
+a.nav-link {
+  color: white;
+}
+.active {
+  background-color: #3f7d7a;
+  border-radius: 5px;
+  color: #ffffff;
+  
+}
+.btn-register {
+  background-color: #0E46A3;
+  color : #ffffff;
+}
+.btn-login {
+  color :#000;
+  background-color: #ffffff;
+  border : 1px solid #000000;
+  margin-right : 8px;
+  transition: all .5s;
+}
+.btn-login:hover {
+  background-color: #0E46A3;
+  color : #ffffff;
+}
