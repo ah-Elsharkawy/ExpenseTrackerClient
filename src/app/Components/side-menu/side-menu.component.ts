@@ -14,8 +14,7 @@ import { IncomeCategoryService } from '../../../Core/Service/income-category.ser
 })
 export class SideMenuComponent {
   constructor(public incomeCategoryServive:IncomeCategoryService) {}
-  // openIncomeModal() {
-  //   const modal = new bootstrap.Modal(document.getElementById('incomeModal')!);
-  //   modal.show();
-  // }
+
+  
+
 }

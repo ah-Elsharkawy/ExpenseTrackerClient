@@ -1,5 +1,5 @@
 <div class="category-container">
-    <div class="category-item" *ngFor="let category of categories" (click)="categoryClick(category.id)">
+    <div role="button" class="category-item" *ngFor="let category of categories" (click)="categoryClick(category.id)">
         <div class="icon">
             <mat-icon>{{ category.icon }}</mat-icon>
         </div>
