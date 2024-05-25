@@ -1,5 +1,11 @@
-<app-nav-main></app-nav-main>
-<div class="container">
-    <router-outlet></router-outlet>
+<div class="container-fluid h-100 d-flex p-0">
+  <div class="col-2 p-0 bg-main d-none d-md-block">
+    <app-side-menu></app-side-menu>
+  </div>
+  <div class="col-10 p-0 d-flex flex-column">
+    <app-nav-main></app-nav-main>
+    <div class="flex-grow-1 p-0">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>
-<app-footer></app-footer>

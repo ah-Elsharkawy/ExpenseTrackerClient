@@ -45,12 +45,15 @@ export class RegisterComponent {
         Validators.maxLength(15),
       ]),
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/),
+      ]),
       rePassword: new FormControl(''),
     },
-    { validators: [this.confirmPassword] } as FormControlOptions
+    { validators: this.confirmPassword } as FormControlOptions
   );
-
+  
   confirmPassword(group: FormGroup): void {
     const password = group.get('password');
     const rePassword = group.get('rePassword');
@@ -65,18 +68,25 @@ export class RegisterComponent {
   handleForm() {
     console.log(this.registerForm.value);
     if (this.registerForm.valid) {
-      // this._AuthService
-      //   .register(this.registerForm.value)
-      //   .subscribe((response) => {
-      //     console.log(response);
-      //   });
-      this._ToastrService.success('You have successfully registered' , "" , {
-        timeOut: 2500,
-      });
-      this.registerForm.reset();
-      setTimeout(() => {
-        this._Router.navigate(['/login']);
-      }, 3000); 
+      this._AuthService
+        .register(this.registerForm.value)
+        .subscribe({
+          next: (response) => {
+              if(response.success===true){ 
+                this._ToastrService.success('You have successfully registered' , "" , {
+                  timeOut: 2500,
+                });
+                console.log(response);
+                this.registerForm.reset();
+                setTimeout(() => {
+                  this._Router.navigate(['/login']);
+                }, 3000);
+              }
+          },
+          error: (error) => {
+            this._ToastrService.error('This Email is already registered', 'Error');
+          },
+        });
     }
   }
 }
