@@ -7,13 +7,14 @@ import { RegisterComponent } from './Components/register/register.component';
 import { LayoutMainComponent } from './Layout/layout-main/layout-main.component';
 import { NotfoundComponent } from './Components/notfound/notfound.component';
 import { authGuard } from '../Core/Guard/auth.guard';
+import { notAuthGuardGuard } from '../Core/Guard/not-auth-guard.guard';
 
 const routes: Routes = [
 
   {path : "" , loadComponent:()=> import("./Layout/layout-auth/layout-auth.component").then(m=>m.LayoutAuthComponent) ,children:[
     {path : "" ,  redirectTo : "login" , pathMatch : "full"} ,
-    {path : "login" , loadComponent:()=> import("./Components/login/login.component").then(m=>m.LoginComponent)} ,
-    {path : "register" , loadComponent:()=> import("./Components/register/register.component").then(m=>m.RegisterComponent)} ,
+    {path : "login" , canActivate :[notAuthGuardGuard] , loadComponent:()=> import("./Components/login/login.component").then(m=>m.LoginComponent)} ,
+    {path : "register" , canActivate :[notAuthGuardGuard] , loadComponent:()=> import("./Components/register/register.component").then(m=>m.RegisterComponent)} ,
     {path: 'verifyEmail' , loadComponent:()=> import("./Components/verify-email/verify-email.component").then(m=>m.VerifyEmailComponent)} ,
   ]} ,
   {path : "" , loadComponent:()=> import("./Layout/layout-main/layout-main.component").then(m=>m.LayoutMainComponent) ,children:[

@@ -141,12 +141,13 @@
           Sign Up
         </button>
         </div> -->
-      <button
+      <button 
         [disabled]="registerForm.invalid"
         type="submit"
         class="btn btn-color w-100"
       >
         Sign Up
+        <span *ngIf="isLoading"><i class="fas fa-spin fa-spinner"></i></span>
       </button>
       <div class="text-center mt-3">
         <p>
