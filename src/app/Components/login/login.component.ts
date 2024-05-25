@@ -54,6 +54,9 @@ export class LoginComponent {
             setTimeout(() => {
               this._Router.navigate(['/home']);
             }, 3000);
+            this._AuthService.decodeUser();
+            console.log(this._AuthService.userInfo["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"]);
+            
           }
         },
         error: (error) => {

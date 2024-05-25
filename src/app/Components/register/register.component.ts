@@ -28,6 +28,7 @@ export class RegisterComponent {
 
   isShowPassword: boolean = false;
   isShowRePassword: boolean = false;
+  isLoading: boolean = false;
 
   handlePass(inputId: string) {
     if (inputId === 'password') {
@@ -66,13 +67,14 @@ export class RegisterComponent {
   }
 
   handleForm() {
-    console.log(this.registerForm.value);
+    this.isLoading = true;
     if (this.registerForm.valid) {
       this._AuthService
         .register(this.registerForm.value)
         .subscribe({
           next: (response) => {
               if(response.success===true){ 
+                this.isLoading = false;
                 this._ToastrService.success('You have successfully registered' , "" , {
                   timeOut: 2500,
                 });
@@ -85,6 +87,7 @@ export class RegisterComponent {
           },
           error: (error) => {
             this._ToastrService.error('This Email is already registered', 'Error');
+            this.isLoading = false;
           },
         });
     }
