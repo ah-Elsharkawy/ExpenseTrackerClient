@@ -17,18 +17,18 @@
           type="email"
           class="form-control"
           id="email"
-          formControlName="email"
+          formControlName="userNameOrEmailAddress"
         />
         <div
           class="text-danger p-1 small"
           *ngIf="
-            loginForm.get('email')?.errors && loginForm.get('email')?.touched
+            loginForm.get('userNameOrEmailAddress')?.errors && loginForm.get('userNameOrEmailAddress')?.touched
           "
         >
-          <p class="mb-0" *ngIf="loginForm.get('email')?.getError('required')">
+          <p class="mb-0" *ngIf="loginForm.get('userNameOrEmailAddress')?.getError('required')">
             Your email is required
           </p>
-          <p class="mb-0" *ngIf="loginForm.get('email')?.getError('email')">
+          <p class="mb-0" *ngIf="loginForm.get('userNameOrEmailAddress')?.getError('email')">
             Your email is invalid
           </p>
         </div>
@@ -80,6 +80,12 @@
           Remember password
         </label>
       </div> -->
+
+      <div *ngIf="errorMsg">
+        <div class="alert alert-danger" role="alert">
+          {{ errorMsg }}
+        </div>
+      </div>
 
       <!-- Forgot password link -->
       <div class="my-3">

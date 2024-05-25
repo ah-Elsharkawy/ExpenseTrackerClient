@@ -13,4 +13,8 @@ export class AuthService {
     return this._HttpClient.post('https://localhost:44311/api/services/app/Account/Register',data)
   }
 
+  login(data : any):Observable<any>{
+    return this._HttpClient.post('https://localhost:44311/api/TokenAuth/Authenticate',data)
+  }
+
 }

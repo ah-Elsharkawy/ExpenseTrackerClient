@@ -1,0 +1,42 @@
+<div class="side-menu text-white d-flex flex-column gap-3 p-3">
+  <div routerLink="home" class="side-menu__item d-flex gap-3 align-items-center" role="button">
+    <i class="fas fa-home"></i>
+    <span>Home</span>
+  </div>
+  <div routerLink="profile" class="side-menu__item d-flex gap-3 align-items-center" role="button">
+    <i class="fas fa-user"></i>
+    <span>Profile</span>
+  </div>
+  <div routerLink="income" class="side-menu__item d-flex gap-3 align-items-center" role="button" >
+    <i class="fas fa-money-bill-wave"></i>
+    <span>Income</span>
+  </div>
+  <div class="side-menu__item d-flex gap-3 align-items-center" role="button">
+    <i class="fas fa-money-bill-wave"></i>
+    <span>Expense</span>
+  </div>
+  <div routerLink="login" class="side-menu__item d-flex gap-3 align-items-center" role="button">
+    <i class="fas fa-sign-out-alt"></i>
+    <span>Logout</span>
+  </div>  
+</div>
+
+<!-- (click)="openIncomeModal()" -->
+<!-- Modal -->
+<div class="modal fade" id="incomeModal" tabindex="-1" aria-labelledby="incomeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="incomeModalLabel">Income Form</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <app-income-form></app-income-form>
+        </div>
+        <!-- <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+        </div> -->
+      </div>
+    </div>
+  </div>

@@ -93,9 +93,9 @@
           </p>
           <p
             class="mb-0"
-            *ngIf="registerForm.get('password')?.getError('minlength')"
+            *ngIf="registerForm.get('password')?.getError('pattern')"
           >
-            Your password must be more than 6 characters
+          Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.
           </p>
         </div>
       </div>
