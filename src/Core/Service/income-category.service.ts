@@ -30,24 +30,18 @@ export class IncomeCategoryService {
     // Add more categories as needed
   ];
 
-  private categoryIdSource = new BehaviorSubject<number | null>(null);
-  currentCategoryId = this.categoryIdSource.asObservable();
-
-  setCategoryId(id: number) {
-    this.categoryIdSource.next(id);
-  }
 
 
+  categoryId : BehaviorSubject<number> = new BehaviorSubject(-1);
+  
   getCategoryNameById(id: number): string {
-    const category = this.categories.find(cat => cat.id === id);
-    return category ? category.name : '';
+    return this.categories.find((category) => category.id === id)?.name || '';
   }
 
   getCategoryId(): number | null {
-    return this.categoryIdSource.getValue();
+    return this.categoryId.getValue();
   }
 
-  toggleVisibility() {
-    this.isVisible = !this.isVisible;
-  }
+
+
 }

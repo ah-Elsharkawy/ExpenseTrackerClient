@@ -32,10 +32,9 @@ export class IncomeFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._IncomeCategoryService.currentCategoryId.subscribe((id) => {
-      if (id !== null) {
-        const categoryName =
-          this._IncomeCategoryService.getCategoryNameById(id);
+    this._IncomeCategoryService.categoryId.subscribe((id) => {
+      if (id !== -1) {
+        const categoryName = this._IncomeCategoryService.getCategoryNameById(id);
         this.incomeForm.patchValue({ category: categoryName });
       }
     });

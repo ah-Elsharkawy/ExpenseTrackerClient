@@ -20,7 +20,9 @@ export class IncomeCategoriesComponent {
   selectedCategoryId: number | null = null;
 
   categoryClick(id: number) {
-    this.incomeCategoryService.setCategoryId(id);
     this.selectedCategoryId = id;
+    this.incomeCategoryService.categoryId.next(id);
+
   }
+
 }
