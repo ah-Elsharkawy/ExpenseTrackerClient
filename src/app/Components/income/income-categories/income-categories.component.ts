@@ -12,12 +12,15 @@ import { Category } from '../../../../Core/Interface/category';
   styleUrls: ['./income-categories.component.css'],
 })
 export class IncomeCategoriesComponent {
-  constructor(public incomeCategoryService: IncomeCategoryService) {}
+  constructor(public incomeCategoryService: IncomeCategoryService) {
+    this.selectedCategoryId = this.incomeCategoryService.getCategoryId();
+  }
 
   categories: Category[] = this.incomeCategoryService.categories;
+  selectedCategoryId: number | null = null;
 
   categoryClick(id: number) {
     this.incomeCategoryService.setCategoryId(id);
-    this.incomeCategoryService.toggleVisibility();
+    this.selectedCategoryId = id;
   }
 }
