@@ -8,7 +8,7 @@
     <i class="fas fa-user"></i>
     <span>Profile</span>
   </div>
-  <div routerLink="income" class="side-menu__item d-flex gap-3 align-items-center" role="button" data-bs-toggle="modal" data-bs-target="#incomeModal">
+  <div routerLink="income" class="side-menu__item d-flex gap-3 align-items-center" role="button" >
     <i class="fas fa-money-bill-wave"></i>
     <span>Income</span>
   </div>
@@ -18,41 +18,3 @@
   </div>
 </div>
 
-<!-- Modal -->
-<div class="modal modal-lg fade" id="incomeModal" tabindex="-1" aria-labelledby="incomeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p-stepper [linear]="true">
-          <p-stepperPanel header="Categories">
-            <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
-              <div class="flex flex-column h-12rem">
-                <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
-                  <app-income-categories></app-income-categories>
-                </div>
-              </div>
-              <div class="flex pt-4 justify-content-end">
-                <p-button label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="nextCallback.emit()" />
-              </div>
-            </ng-template>
-          </p-stepperPanel>
-          <p-stepperPanel header="Income Form">
-            <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback" let-index="index">
-              <div class="flex flex-column h-12rem">
-                <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
-                  <app-income-form></app-income-form>
-                </div>
-              </div>
-              <div class="flex pt-4 justify-content-between">
-                <p-button label="Back" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
-              </div>
-            </ng-template>
-          </p-stepperPanel>
-        </p-stepper>
-      </div>
-    </div>
-  </div>
-</div>
