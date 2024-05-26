@@ -1,0 +1,12 @@
+<mat-card class="budget-card">
+  <mat-card-title>{{ budget.name }}</mat-card-title>
+  <mat-card-content>
+    <p>Income: ${{ budget.allocated }}</p>
+    <p>Spent: ${{ budget.spent }}</p>
+    <mat-progress-bar [value]="(budget.spent / budget.allocated) * 100" [color]="budget.spent > budget.allocated ? 'warn' : 'primary'"></mat-progress-bar>
+    <div class="members">
+      <img *ngFor="let member of budget.members" [src]="member.photo" class="member-photo" alt="{{ member.name }}">
+    </div>
+    <button mat-button color="primary">View Details</button>
+  </mat-card-content>
+</mat-card>
