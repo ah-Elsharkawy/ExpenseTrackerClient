@@ -26,10 +26,7 @@ export class IncomeCategoryService {
     { icon: 'flight', name: 'Travel' ,id:10 },
     { icon: 'people', name: 'Family' ,id:11 },
     { icon: 'local_hospital', name: 'Healthcare' ,id:12 },
-    { icon: 'school', name: 'Education' ,id:13 },
-    { icon: 'local_grocery_store', name: 'Groceries' ,id:14 },
-    { icon: 'sports_soccer', name: 'Sports' ,id:15 },
-    { icon: 'local_florist', name: 'Gifts' ,id:16 },
+
     // Add more categories as needed
   ];
 
@@ -40,9 +37,14 @@ export class IncomeCategoryService {
     this.categoryIdSource.next(id);
   }
 
+
   getCategoryNameById(id: number): string {
     const category = this.categories.find(cat => cat.id === id);
     return category ? category.name : '';
+  }
+
+  getCategoryId(): number | null {
+    return this.categoryIdSource.getValue();
   }
 
   toggleVisibility() {
