@@ -1,0 +1,62 @@
+.container-fluid {
+    background-color: #f8f9fa;
+}
+
+.card {
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+
+.btn-outline-light {
+    border: 1px solid #fff;
+    color: #fff;
+}
+
+.btn-outline-light:hover {
+    background-color: #fff;
+    color: #007bff;
+}
+
+.form-floating label {
+    color: #6c757d;
+}
+
+.form-floating input:focus ~ label,
+.form-floating input:not(:placeholder-shown) ~ label {
+    color: #495057;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+}
+
+.btn-primary i {
+    margin-right: 0.5rem;
+}
+
+.text-center {
+    margin-top: 1.5rem;
+}
+
+.modal {
+    display: none;
+}
+
+.modal.d-block {
+    display: block;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-dialog {
+    margin: 10vh auto;
+}
+

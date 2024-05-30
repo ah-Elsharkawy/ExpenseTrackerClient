@@ -21,7 +21,7 @@ const routes: Routes = [
     {path : "" ,  redirectTo : "home" , pathMatch : "full"} ,
     {path : "home" , canActivate : [authGuard] , loadComponent:()=> import("./Components/home/home.component").then(m=>m.HomeComponent)} ,
     {path : "income" ,canActivate : [authGuard],  loadComponent:()=> import("./Components/income/income.component").then(m=>m.IncomeComponent)} ,
-    {path : "profile" , canActivate : [authGuard] , loadComponent:()=> import("./Components/profile/profile.component").then(m=>m.ProfileComponent)} ,
+    {path : "profile" , canActivate : [authGuard] , loadComponent:()=> import("./Components/profile/profile.component").then(m=>m.UserProfileComponent)} ,
   ]} ,
   {path : "**" , loadComponent:()=> import("./Components/notfound/notfound.component").then(m=>m.NotfoundComponent)} ,
 
