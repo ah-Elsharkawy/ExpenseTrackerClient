@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -25,7 +25,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),provideHttpClient()
   ],
   bootstrap: [AppComponent]
 })
