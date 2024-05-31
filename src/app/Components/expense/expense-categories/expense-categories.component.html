@@ -1,0 +1,10 @@
+<div class="category-container">
+    <div role="button" class="category-item" *ngFor="let category of categories"
+        [ngClass]="{ 'selected': selectedCategoryId === category.id }" (click)="categoryClick(category.id)">
+        <div class="icon">
+            <mat-icon>{{ category.icon }}</mat-icon>
+        </div>
+        <div class="name">{{ category.name }}</div>
+        <input type="checkbox" [checked]="selectedCategoryId === category.id" hidden />
+    </div>
+</div>
