@@ -1,0 +1,19 @@
+
+<!-- i need -->
+<div class="row m-4">
+    <div class="row align-items-center">
+        <div class="col-auto">
+          <label for="modeSelect">Mode:</label>
+        </div>
+        <div class="col-auto">
+          <select id="modeSelect" [(ngModel)]="selectedMode" (change)="updateChart()" class="form-select form-select-sm">
+            <option *ngFor="let item of mode" [value]="item">{{item}}</option>
+          </select>
+        </div>
+      </div>
+
+    <div class="row col-md-12 chart-container">
+      <app-line-chart [LineDate]="LineDate"></app-line-chart>
+      
+    </div>
+  </div>

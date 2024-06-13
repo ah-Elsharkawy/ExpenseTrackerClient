@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../Core/Service/auth.service';
+import { ProfileDataService } from '../../../Core/Service/profile-data.service';
 
 @Component({
   selector: 'app-profile-settings',
@@ -17,24 +19,41 @@ export class UserProfileComponent implements OnInit {
   isEmailModalOpen = false;
   isPasswordModalOpen = false;
 
-  constructor(private fb: FormBuilder) { }
+  errorMsg : string = '';
+  errorPass : string = '';
+  userId: any;
+
+  constructor(
+    private fb: FormBuilder,
+    private _ProfileDataService: ProfileDataService,
+    private _AuthService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.profileForm = this.fb.group({
+      id: [{ value: '', disabled: true }],
       name: [{ value: '', disabled: true }],
-      email: [{ value: '', disabled: true }],
+      emailAddress: [{ value: '', disabled: true }],
       password: [{ value: '', disabled: true }],
-      registrationDate: [{ value: '', disabled: true }]
     });
 
-    this.emailForm = this.fb.group({
-      newEmail: ['', [Validators.required, Validators.email]],
-      confirmNewEmail: ['', [Validators.required, Validators.email]]
-    });
-
+    // Initialize the change password form
     this.passwordForm = this.fb.group({
-      newPassword: ['', [Validators.required, Validators.minLength(6)]],
-      confirmNewPassword: ['', [Validators.required, Validators.minLength(6)]]
+      currentPassword: ['', Validators.required],
+      newPassword: ['', Validators.required],
+    });
+
+    this._AuthService.decodeUser();
+    this.userId = this._AuthService.userID;
+
+    this._ProfileDataService.getProfile(this.userId).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.profileForm.patchValue(data.result);
+      },
+      error: (err) => {
+        console.log(err);
+      },
     });
   }
 
@@ -45,24 +64,19 @@ export class UserProfileComponent implements OnInit {
 
   onSave(): void {
     if (this.profileForm.valid) {
-      console.log(this.profileForm.value);
-      this.isEditing = false;
-      this.profileForm.disable();
-    }
-  }
-
-  openEmailModal(): void {
-    this.isEmailModalOpen = true;
-  }
-
-  closeEmailModal(): void {
-    this.isEmailModalOpen = false;
-  }
-
-  onChangeEmail(): void {
-    if (this.emailForm.valid) {
-      console.log(this.emailForm.value);
-      this.closeEmailModal();
+      this._ProfileDataService
+        .updateProfile(this.userId, this.profileForm.value)
+        .subscribe({
+          next: (data) => {
+            console.log('Profile updated successfully', data);
+            this.isEditing = false;
+            this.profileForm.disable();
+          },
+          error: (err) => {
+            console.error('Error updating profile', err);
+            this.errorMsg = err.error.error.message;
+          },
+        });
     }
   }
 
@@ -76,8 +90,19 @@ export class UserProfileComponent implements OnInit {
 
   onChangePassword(): void {
     if (this.passwordForm.valid) {
-      console.log(this.passwordForm.value);
-      this.closePasswordModal();
+      const currentPassword = this.passwordForm.get('currentPassword')?.value;
+      const newPassword = this.passwordForm.get('newPassword')?.value;
+      
+      this._ProfileDataService.changePassword(this.userId, { currentPassword, newPassword }).subscribe({
+        next: (data) => {
+          console.log('Password updated successfully', data);
+          this.closePasswordModal();
+        },
+        error: (err) => {
+          console.error('Error updating password', err);
+          this.errorPass = err.error.error.message;
+        }
+      });
     }
   }
 }
