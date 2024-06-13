@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-light bg-main shadow-lg">
   <div class="container">
-    <a class="navbar-brand" routerLink="login">Navbar</a>
+    <app-side-bar></app-side-bar>
     <button
       class="navbar-toggler d-lg-none"
       type="button"
@@ -15,7 +15,6 @@
     <div class="collapse navbar-collapse" id="collapsibleNavId">
       <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
         <li class="nav-item dropdown gap-2">
-          
           <a
             class="nav-link dropdown-toggle"
             href="#"
@@ -24,14 +23,16 @@
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-          <i class="fa-regular fa-circle-user"></i> Emad Ahmed Nasef
+            <i class="fa-regular fa-circle-user"></i> Emad Ahmed Nasef
           </a>
           <ul class="dropdown-menu" aria-labelledby="userDropdown">
             <li>
               <a class="dropdown-item" routerLink="profile">Profile</a>
             </li>
             <li>
-              <button (click)="handleLogout()"  class="dropdown-item">Logout</button>
+              <button (click)="handleLogout()" class="dropdown-item">
+                Logout
+              </button>
             </li>
           </ul>
         </li>
@@ -39,7 +40,7 @@
           <a class="nav-link" routerLink="home">Home</a>
         </li>
         <li class="d-block d-md-none">
-          <a class="nav-link" routerLink="income" >Income</a>
+          <a class="nav-link" routerLink="income">Income</a>
         </li>
         <li class="d-block d-md-none">
           <a class="nav-link" routerLink="expense">Expense</a>
@@ -52,15 +53,24 @@
   </div>
 </nav>
 
-
-
 <!-- Modal -->
-<div class="modal fade" id="incomeModal1" tabindex="-1" aria-labelledby="incomeModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="incomeModal1"
+  tabindex="-1"
+  aria-labelledby="incomeModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="incomeModalLabel">Income Form</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
         <app-income-form></app-income-form>
