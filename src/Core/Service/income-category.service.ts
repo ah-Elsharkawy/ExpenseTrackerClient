@@ -42,6 +42,8 @@ export class IncomeCategoryService {
     return this.categoryId.getValue();
   }
 
-
+  isCategoryChoosen(): boolean { 
+    return this.getCategoryId() == -1;
+  }
 
 }

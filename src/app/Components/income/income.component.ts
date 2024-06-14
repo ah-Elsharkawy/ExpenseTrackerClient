@@ -6,6 +6,7 @@ import { IncomeCategoriesComponent } from './income-categories/income-categories
 import { IncomeFormComponent } from './income-form/income-form.component';
 import { StepperModule } from 'primeng/stepper';
 import { ButtonModule } from 'primeng/button';
+import { IncomeCategoryService } from '../../../Core/Service/income-category.service';
 
 @Component({
   selector: 'app-income',
@@ -17,6 +18,8 @@ import { ButtonModule } from 'primeng/button';
   styleUrl: './income.component.css'
 })
 export class IncomeComponent implements OnInit{
+
+  constructor(public _IncomeCategoryService: IncomeCategoryService) {}
 
   budgets = [
     { name: 'Technology Infrastructure', allocated: 78000, spent: 132000},
@@ -41,10 +44,6 @@ export class IncomeComponent implements OnInit{
   deleteCard() {
     // Logic to delete the budget card
     console.log('Delete card');
-  }
-
-  constructor() {
-
   }
 
   ngOnInit(): void {
