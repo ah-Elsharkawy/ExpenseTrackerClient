@@ -44,4 +44,13 @@ export class IncomeCardComponent implements OnInit {
     const category = this.categories.find((category) => category.id === id);
     return category ? category.name : 'Unknown';
   }
+
+  deleteTransaction(id: number) {
+    this._TransactionService.deleteTransaction(id).subscribe(() => {
+      this._TransactionService.removeTransaction(id);
+    }, (error) => {
+      console.error('Error deleting transaction:', error);
+    });
+  }
+
 }
