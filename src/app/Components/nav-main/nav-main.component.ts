@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import {  Router, RouterLink } from '@angular/router';
 import { IncomeFormComponent } from '../income/income-form/income-form.component';
 import { SideBarComponent } from '../side-bar/side-bar.component';
+import { AuthService } from '../../../Core/Service/auth.service';
 //import * as bootstrap from "bootstrap";
 
 
@@ -14,13 +15,21 @@ import { SideBarComponent } from '../side-bar/side-bar.component';
   styleUrl: './nav-main.component.css'
 })
 export class NavMainComponent {
+  UserName:string = 'anonymous'
+  constructor(private _Router : Router , private _AuthService : AuthService) {
+  }
 
-  constructor(private _Router : Router) {}
-
+  ngOnInit(): void {
+    if (localStorage.getItem('token')) {
+      this.UserName = this._AuthService.decodeUser();
+      console.log(this.UserName);
+    }
+  }
   handleLogout() {
     if (localStorage.getItem('token')) {
       localStorage.removeItem('token');
       this._Router.navigate(['/login']);
+
     }
   }
 

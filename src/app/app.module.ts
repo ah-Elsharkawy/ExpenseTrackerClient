@@ -3,12 +3,13 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { MaterialModule } from './angular-module/angular-module.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {  AuthInterceptorInterceptor } from './interceptors/auth-interceptor.interceptor';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })
