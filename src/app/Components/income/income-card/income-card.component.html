@@ -1,14 +1,17 @@
-<mat-card class="budget-card">
-  <button mat-button color="primary">Category</button>
-  <!-- <mat-card-title>{{ budget.name }}</mat-card-title> -->
-  <mat-card-content>
-    <p>Income: ${{ budget.allocated }}</p>
-    <p>Spent: ${{ budget.spent }}</p>
-    <mat-progress-bar [value]="(budget.spent / budget.allocated) * 100" [color]="budget.spent > budget.allocated ? 'warn' : 'primary'"></mat-progress-bar>
-    <div class="members">
-      <img *ngFor="let member of budget.members" [src]="member.photo" class="member-photo" alt="{{ member.name }}">
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let transaction of transactions">
+      <mat-card class="budget-card shadow">
+        <button mat-button color="primary">{{ transaction.categoryName }}</button>
+        <mat-card-content>
+          <p>Income: ${{ transaction.amount }}</p>
+          <p>Type: {{ transaction.typeName }}</p>
+          <p>Description: {{ transaction.description }}</p>
+          <p *ngIf="transaction.date">Date: {{ transaction.date }}</p>
+          <button mat-raised-button color="primary">Update</button>
+          <button mat-raised-button color="warn" (click)="deleteTransaction(transaction.id)">Delete</button>
+        </mat-card-content>
+      </mat-card>
     </div>
-    <button mat-raised-button color="primary">Update</button>
-    <button mat-raised-button color="warn">Delete</button>
-  </mat-card-content>
-</mat-card>
+  </div>
+</div>
