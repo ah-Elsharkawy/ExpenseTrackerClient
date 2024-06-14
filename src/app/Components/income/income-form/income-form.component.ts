@@ -15,10 +15,6 @@ import { TransactionService } from '../../../../Core/Service/transaction.service
 })
 export class IncomeFormComponent implements OnInit {
   showContent: boolean = false;
-  categoryID: number = -1;
-  categories:any[] =[];
-
-  constructor(private _IncomeCategoryService: IncomeCategoryService, private _TransactionService: TransactionService) {}
 
   incomeForm: FormGroup = new FormGroup({
     category: new FormControl({ value: '', disabled: true }),
@@ -29,13 +25,40 @@ export class IncomeFormComponent implements OnInit {
     description: new FormControl(''),
   });
 
+  constructor(
+    private _IncomeCategoryService: IncomeCategoryService,
+    private _TransactionService: TransactionService
+  ) {}
+
+  ngOnInit(): void {
+    this._IncomeCategoryService.categoryId.subscribe((id) => {
+      if (id !== -1) {
+        const categoryName = this._IncomeCategoryService.getCategoryNameById(id);
+        this.incomeForm.patchValue({ category: categoryName });
+      }
+    });
+
+    this._IncomeCategoryService.getCategories().subscribe();
+
+    this.incomeForm.get('type')?.valueChanges.subscribe((value) => {
+      this.showContent = value === 'recurrence';
+    });
+  }
+
   handleSubmit(): void {
     const type = this.getEnumValue(this.incomeForm.value.type);
     const categoryId = this._IncomeCategoryService.getCategoryId();
+
+    if (categoryId === null) {
+      console.error('No category selected');
+      return;
+    }
+
     const formData: any = {
       ...this.incomeForm.value,
       type: type,
       categoryId: categoryId,
+      category: this._IncomeCategoryService.getCategoryNameById(categoryId),
     };
 
     // Set date to today's date if type is 'fixed'
@@ -99,18 +122,5 @@ export class IncomeFormComponent implements OnInit {
       return formattedDate;
     }
     return '';
-  }
-
-  ngOnInit(): void {
-    this._IncomeCategoryService.categoryId.subscribe((id) => {
-      if (id !== -1) {
-        const categoryName = this._IncomeCategoryService.getCategoryNameById(id);
-        this.incomeForm.patchValue({ category: categoryName });
-      }
-    });
-
-    this.incomeForm.get('type')?.valueChanges.subscribe((value) => {
-      this.showContent = value === 'recurrence';
-    });
   }
 }
