@@ -11,10 +11,11 @@ import { IncomeCategoryService } from '../../../../Core/Service/income-category.
   standalone: true,
   imports: [CommonModule, MatButtonModule, MatCardModule, MatIconModule],
   templateUrl: './income-card.component.html',
-  styleUrls: ['./income-card.component.css']
+  styleUrls: ['./income-card.component.css'],
 })
 export class IncomeCardComponent implements OnInit {
   transactions: any[] = [];
+  categories: any[] = [];
 
   constructor(
     private _TransactionService: TransactionService,
@@ -22,19 +23,34 @@ export class IncomeCardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this._TransactionService.transactions$.subscribe(transactions => {
-      this.transactions = transactions.map(transaction => {
-        const categoryName = this._IncomeCategoryService.getCategoryNameById(transaction.categoryId);
-        const typeName = this.getTypeName(transaction.type);
-        return { ...transaction, categoryName, typeName };
+    this._IncomeCategoryService.getCategories().subscribe((response) => {
+      this.categories = response.result;
+      this._TransactionService.transactions$.subscribe((transactions) => {
+        this.transactions = transactions.map((transaction) => {
+          const typeName = this.getTypeName(transaction.type);
+          const categoryName = this.getCategoryNameById(transaction.categoryId);
+          return { ...transaction, typeName, categoryName };
+        });
       });
+      this._TransactionService.updateTransactions();
     });
-
-    // Fetch transactions when the component initializes
-    this._TransactionService.updateTransactions();
   }
 
   getTypeName(type: number): string {
     return type === 0 ? 'Fixed' : 'Recurrence';
   }
+
+  getCategoryNameById(id: number): string {
+    const category = this.categories.find((category) => category.id === id);
+    return category ? category.name : 'Unknown';
+  }
+
+  deleteTransaction(id: number) {
+    this._TransactionService.deleteTransaction(id).subscribe(() => {
+      this._TransactionService.removeTransaction(id);
+    }, (error) => {
+      console.error('Error deleting transaction:', error);
+    });
+  }
+
 }

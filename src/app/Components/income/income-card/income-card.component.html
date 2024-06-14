@@ -9,7 +9,7 @@
           <p>Description: {{ transaction.description }}</p>
           <p *ngIf="transaction.date">Date: {{ transaction.date }}</p>
           <button mat-raised-button color="primary">Update</button>
-          <button mat-raised-button color="warn">Delete</button>
+          <button mat-raised-button color="warn" (click)="deleteTransaction(transaction.id)">Delete</button>
         </mat-card-content>
       </mat-card>
     </div>

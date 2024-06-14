@@ -14,4 +14,5 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 })
 export class ExpenseCardComponent {
   @Input() budget: any;  // Declare the input property
+  @Input() transaction: any;  // Declare the input property
 }

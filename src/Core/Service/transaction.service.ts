@@ -25,6 +25,17 @@ export class TransactionService {
     }
   }
 
+  deleteTransaction(id: number): Observable<any> {
+    return this._HttpClient.delete(`${this.apiUrl}/services/app/Transaction/DeleteTransaction?id=${id}`);
+  }
+
+  removeTransaction(id: number) {
+    const currentTransactions = this.transactionsSource.value.filter(t => t.id !== id);
+    this.transactionsSource.next(currentTransactions);
+  }
+
+
+
   loadTransactions(transactions: any[]) {
     this.transactionsSource.next(transactions);
   }
