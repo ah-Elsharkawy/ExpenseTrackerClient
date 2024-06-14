@@ -19,7 +19,7 @@ export class expenseFormComponent implements OnInit {
   constructor(private _expenseCategoryService: ExpenseCategoryService) {}
 
   expenseForm: FormGroup = new FormGroup({
-    category: new FormControl(''),
+    category: new FormControl({ value: '', disabled: true }),
     amount: new FormControl(''),
     type: new FormControl(''),
     duration: new FormControl(''),

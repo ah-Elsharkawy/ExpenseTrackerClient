@@ -1,12 +1,10 @@
-<!-- Add New Card Button -->
 <div class="add-card-button-container">
   <button mat-raised-button color="primary" data-bs-toggle="modal" data-bs-target="#incomeModal">Add New Income</button>
 </div>
 
 <div class="dashboard-container">
-  <app-income-card *ngFor="let budget of budgets" [budget]="budget"></app-income-card>
+  <app-income-card></app-income-card>
 </div>
-
 
 <!-- Modal -->
 <div class="modal modal-lg fade" id="incomeModal" tabindex="-1" aria-labelledby="incomeModalLabel" aria-hidden="true">
