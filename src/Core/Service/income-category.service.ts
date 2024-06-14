@@ -1,17 +1,21 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Category } from '../Interface/category';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IncomeCategoryService {
 
-  constructor() { }
+  constructor(private _HttpClient : HttpClient) { }
 
   isVisible: boolean = true;
   // categoryId: number = -1;
 
+  getCategories():Observable<any> {
+    return this._HttpClient.get("https://localhost:44311/api/services/app/Category/GetCategories")
+  }
   
   categories: Category[] = [
     {icon:'attach_money', name:'Salary', id:1},
