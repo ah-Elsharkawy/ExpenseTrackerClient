@@ -14,6 +14,7 @@ import { InsightsService } from '../../../Core/Service/insights.service';
   styleUrl: './insights.component.css'
 })
 export class InsightsComponent {
+  noData:boolean = false;
   LineDate:any
   pieData: { labels: string[]; datasets: { data: number[]; backgroundColor: string[]; }[]}
   mode = ['Yearly', 'Monthly']
@@ -69,6 +70,7 @@ datasets: [
   
   }
   assignMonthlyData() {
+
     let income = this.insightsService.GetAllIncomeTransactions_GroupedByDays_InCurrentMonth();
     let expense = this.insightsService.GetAllExpenseTransactions_GroupedByDays_InCurrentMonth();
     let currentMonth = new Date().getMonth();
@@ -92,8 +94,15 @@ datasets: [
         {  ...this.LineDate.datasets[1], data: expenseData}
       ]
     };
-  }
-  
+    const [incomeTotal, expenseTotal] = this.insightsService.getMonthlyTotalofExpenseAndIncome()
+    console.log(incomeTotal, expenseTotal);
+    if(incomeTotal == 0 && expenseTotal == 0){
+      this.noData = true;
+    }else{
+      this.pieData = { labels: ['Income', 'Expense'], datasets: [{ data: [incomeTotal, expenseTotal], backgroundColor: ['#36A2EB', '#FF6384'] }] }
+        this.noData = false;
+    }
+     }
   assingYearlyData() {
     let income = this.insightsService.GetAllIncomeTransactions_GroupedByMonth_InCurrentYear();
     let expense = this.insightsService.GetAllExpenseTransactions_GroupedByMonth_InCurrentYear();
@@ -115,5 +124,8 @@ datasets: [
         {  ...this.LineDate.datasets[1], data: expenseData}
       ]
     };
-  }      
+    const [incomeTotal, expenseTotal] = this.insightsService.getYearlyTotalofExpenseAndIncome()
+    this.pieData = { labels: ['Income', 'Expense'], datasets: [{ data: [incomeTotal, expenseTotal], backgroundColor: ['#36A2EB', '#FF6384'] }] }  
+    this.noData = false;
+  }    
 }

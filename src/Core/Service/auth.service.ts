@@ -21,13 +21,14 @@ export class AuthService {
   login(data : any):Observable<any>{
     return this._HttpClient.post(`${this.apiUrl}/TokenAuth/Authenticate`, data);
   }
-
-  decodeUser():void {
+  // should return userName
+  decodeUser():any {
     const encode = localStorage.getItem('token');
     if(encode != null){
       const decode = jwtDecode(encode);
       this.userInfo = decode;
-      //console.log(decode);
+      //this.userID = this.userInfo['userId'];
+      return this.userInfo['userName'];
     } 
   }
 

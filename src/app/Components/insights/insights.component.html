@@ -1,19 +1,29 @@
-
-<!-- i need -->
-<div class="row m-4">
-    <div class="row align-items-center">
-        <div class="col-auto">
-          <label for="modeSelect">Mode:</label>
-        </div>
-        <div class="col-auto">
+<div class=" m-4">
+  <div class="row mb-3">
+      <div class="col-auto d-flex align-items-center">
+          <label for="modeSelect" class="me-2">Mode:</label>
           <select id="modeSelect" [(ngModel)]="selectedMode" (change)="updateChart()" class="form-select form-select-sm">
-            <option *ngFor="let item of mode" [value]="item">{{item}}</option>
+              <option *ngFor="let item of mode" [value]="item">{{item}}</option>
           </select>
-        </div>
       </div>
-
-    <div class="row col-md-12 chart-container">
-      <app-line-chart [LineDate]="LineDate"></app-line-chart>
-      
-    </div>
   </div>
+
+  <div class="row chart-container">
+      <div class="col-md-6">
+        <div class="h3 alert alert-info"> Line Chart</div>
+          <app-line-chart [LineDate]="LineDate"></app-line-chart>
+      </div>
+      <div class="col-md-6">
+        <div class="h3 alert alert-info"> Bar Chart</div>
+       
+        @if (noData) {
+            <div class="alert alert-warning">No data available</div>
+          
+        }@else{
+            <app-pie-chart [pieData]="pieData"></app-pie-chart>
+        }
+          
+      </div>
+  </div>
+</div>
+
