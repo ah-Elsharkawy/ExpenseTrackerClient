@@ -16,6 +16,7 @@ import { TransactionService } from '../../../../Core/Service/transaction.service
 export class IncomeFormComponent implements OnInit {
   showContent: boolean = false;
   categoryID: number = -1;
+  categories:any[] =[];
 
   constructor(private _IncomeCategoryService: IncomeCategoryService, private _TransactionService: TransactionService) {}
 

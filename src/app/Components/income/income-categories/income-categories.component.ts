@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { IncomeCategoryService } from '../../../../Core/Service/income-category.service';
 import { Category } from '../../../../Core/Interface/category';
@@ -11,18 +11,24 @@ import { Category } from '../../../../Core/Interface/category';
   templateUrl: './income-categories.component.html',
   styleUrls: ['./income-categories.component.css'],
 })
-export class IncomeCategoriesComponent {
-  constructor(public incomeCategoryService: IncomeCategoryService) {
+export class IncomeCategoriesComponent implements OnInit {
+  categories: Category[] = [];
+  selectedCategoryId: number | null = null;
+
+  constructor(public incomeCategoryService: IncomeCategoryService) {}
+
+  ngOnInit(): void {
+    this.incomeCategoryService.getCategories().subscribe((res) => {
+      console.log(res.result);
+      this.categories = res.result;
+    });
+
     this.selectedCategoryId = this.incomeCategoryService.getCategoryId();
   }
-
-  categories: Category[] = this.incomeCategoryService.categories;
-  selectedCategoryId: number | null = null;
 
   categoryClick(id: number) {
     this.selectedCategoryId = id;
     this.incomeCategoryService.categoryId.next(id);
-
   }
 
 }
