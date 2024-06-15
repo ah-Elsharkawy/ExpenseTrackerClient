@@ -9,6 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { IncomeCategoryService } from '../../../Core/Service/income-category.service';
 import { TransactionService } from '../../../Core/Service/transaction.service';
 import { AuthService } from '../../../Core/Service/auth.service';
+import { MatStepperModule } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-income',
@@ -21,6 +22,7 @@ import { AuthService } from '../../../Core/Service/auth.service';
     IncomeFormComponent,
     StepperModule,
     ButtonModule,
+    MatStepperModule
   ],
   templateUrl: './income.component.html',
   styleUrl: './income.component.css',

@@ -2,9 +2,7 @@
   <button mat-raised-button color="primary" data-bs-toggle="modal" data-bs-target="#incomeModal">Add New Income</button>
 </div>
 
-
 <app-income-card></app-income-card>
-
 
 <!-- Modal -->
 <div class="modal modal-lg fade" id="incomeModal" tabindex="-1" aria-labelledby="incomeModalLabel" aria-hidden="true">
@@ -14,32 +12,26 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p-stepper #stepper [linear]="true">
-          <p-stepperPanel header="Categories">
-            <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
-              <div class="flex flex-column h-12rem">
-                <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
-                  <app-income-categories></app-income-categories>
-                </div>
-              </div>
-              <div class="flex pt-4 justify-content-end">
-                <p-button label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="nextCallback.emit()" [disabled]="_IncomeCategoryService.isCategoryChoosen()"/>
-              </div>
-            </ng-template>
-          </p-stepperPanel>
-          <p-stepperPanel header="Income Form">
-            <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback" let-index="index">
-              <div class="flex flex-column h-12rem">
-                <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
-                  <app-income-form ></app-income-form>
-                </div>
-              </div>
-              <div class="flex pt-4 justify-content-between">
-                <p-button label="Back" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
-              </div>
-            </ng-template>
-          </p-stepperPanel>
-        </p-stepper>
+        <mat-horizontal-stepper #stepper>
+          <mat-step label="Categories">
+            <ng-template matStepLabel>Categories</ng-template>
+            <div class="step-content">
+              <app-income-categories></app-income-categories>
+            </div>
+            <div class="flex pt-4 justify-content-end">
+              <button mat-button matStepperNext [disabled]="_IncomeCategoryService.isCategoryChoosen()">Next</button>
+            </div>
+          </mat-step>
+          <mat-step label="Income Form">
+            <ng-template matStepLabel>Income Form</ng-template>
+            <div class="step-content">
+              <app-income-form></app-income-form>
+            </div>
+            <div class="flex pt-4 justify-content-between">
+              <button mat-button matStepperPrevious>Back</button>
+            </div>
+          </mat-step>
+        </mat-horizontal-stepper>
       </div>
     </div>
   </div>
