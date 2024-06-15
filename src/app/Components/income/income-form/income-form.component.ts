@@ -6,6 +6,7 @@ import { StepperModule } from 'primeng/stepper';
 import { ButtonModule } from 'primeng/button';
 import { TransactionService } from '../../../../Core/Service/transaction.service';
 import { AuthService } from '../../../../Core/Service/auth.service';
+import { MatStepper } from '@angular/material/stepper';
 import { RecurrenceService } from '../../../../Core/Service/recurrence.service';
 
 @Component({
