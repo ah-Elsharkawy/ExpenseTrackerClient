@@ -9,6 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { ExpenseService } from '../../../Core/Service/expense.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { CategoryService } from '../../../Core/Service/category.service';
 
 @Component({
   selector: 'app-expense',
@@ -47,7 +48,7 @@ export class expenseComponent implements OnInit{
   }
 
   
-  constructor(private expenseService: ExpenseService) {
+  constructor(private expenseService: ExpenseService, private categoryService: CategoryService) {
 
   }
   private destroy$ = new Subject<void>();
