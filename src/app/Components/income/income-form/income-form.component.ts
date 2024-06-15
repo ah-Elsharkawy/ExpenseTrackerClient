@@ -62,7 +62,7 @@ export class IncomeFormComponent implements OnInit {
 
     const formData: any = {
       ...this.incomeForm.value,
-      type: type,
+      type: 0,
       categoryId: categoryId,
       category: this._IncomeCategoryService.getCategoryNameById(categoryId),
     };
