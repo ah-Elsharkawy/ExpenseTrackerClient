@@ -28,8 +28,18 @@ export class AuthService {
       const decode = jwtDecode(encode);
       this.userInfo = decode;
       //this.userID = this.userInfo['userId'];
-      return this.userInfo['userName'];
+      return this.userInfo['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
     } 
+  }
+  getUserId():string{
+    const encode = localStorage.getItem('token');
+    if(encode != null){
+      const decode = jwtDecode(encode);
+      this.userInfo = decode;
+      this.userID = this.userInfo['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
+      return this.userID;
+    }
+    return '';
   }
 
   getToken(): string | null {
