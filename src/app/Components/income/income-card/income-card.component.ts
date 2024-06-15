@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { ButtonModule } from 'primeng/button';
 import { StepperModule } from 'primeng/stepper';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../../../../Core/Service/auth.service';
 
 @Component({
   selector: 'app-income-card',
@@ -28,10 +29,11 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 export class IncomeCardComponent implements OnInit {
   transactions: any[] = [];
   categories: any[] = [];
-
+  userId: number = 0;
   constructor(
     private _TransactionService: TransactionService,
-    private _IncomeCategoryService: IncomeCategoryService
+    private _IncomeCategoryService: IncomeCategoryService,
+    private _AuthService: AuthService
   ) {}
 
   selectedTransaction: any; // Declare a property to hold the selected transaction
@@ -67,6 +69,7 @@ export class IncomeCardComponent implements OnInit {
     }
   }
   ngOnInit(): void {
+    this.userId = this._AuthService.userID;    
     this._IncomeCategoryService.getCategories().subscribe((response) => {
       this.categories = response.result;
       this._TransactionService.transactions$.subscribe((transactions) => {
@@ -76,7 +79,7 @@ export class IncomeCardComponent implements OnInit {
           return { ...transaction, typeName, categoryName };
         });
       });
-      this._TransactionService.updateTransactions();
+      this._TransactionService.updateTransactions(this.userId);
     });
   }
 
@@ -94,7 +97,7 @@ export class IncomeCardComponent implements OnInit {
     this.updateForm.get('type')?.setValue(transactionType.toString());
     this._TransactionService.updateTransaction(this.updateForm.value).subscribe(
       (response) => {
-        this._TransactionService.updateTransactions();
+        this._TransactionService.updateTransactions(this.userId);
         Swal.fire('Success!', 'Transaction updated successfully.', 'success');
       },
       (error) => {
