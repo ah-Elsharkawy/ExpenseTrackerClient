@@ -10,15 +10,18 @@
             <div class="card-body p-4">
                 <form [formGroup]="profileForm" (ngSubmit)="onSave()">
                     <div class="form-floating mb-3 position-relative" hidden>
-                        <input id="id" type="text" class="form-control" formControlName="id" [readonly]="!isEditing" placeholder="ID">
+                        <input id="id" type="text" class="form-control" formControlName="id" [readonly]="!isEditing"
+                            placeholder="ID">
                         <label for="id">Id</label>
                     </div>
                     <div class="form-floating mb-3 position-relative">
-                        <input id="name" type="text" class="form-control" formControlName="name" [readonly]="!isEditing" placeholder="Name">
+                        <input id="name" type="text" class="form-control" formControlName="name" [readonly]="!isEditing"
+                            placeholder="Name">
                         <label for="name">Name</label>
                     </div>
                     <div class="form-floating mb-3 position-relative">
-                        <input id="email" type="email" class="form-control" formControlName="emailAddress" [readonly]="!isEditing" placeholder="Email">
+                        <input id="email" type="email" class="form-control" formControlName="emailAddress"
+                            [readonly]="!isEditing" placeholder="Email">
                         <label for="email">Email</label>
                         <!-- <button type="button" class="btn btn-secondary position-absolute top-0 end-0 m-2">Change Email</button> -->
                     </div>
@@ -36,7 +39,7 @@
                     </div>
                     <div *ngIf="errorMsg">
                         <div class="alert alert-danger mt-3" role="alert">
-                          {{ errorMsg }}
+                            {{ errorMsg }}
                         </div>
                     </div>
                 </form>
@@ -55,17 +58,19 @@
                 <div class="modal-body">
                     <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()">
                         <div class="form-floating mb-3">
-                            <input id="newPassword" type="password" class="form-control" formControlName="currentPassword" placeholder="New Password">
+                            <input id="newPassword" type="password" class="form-control"
+                                formControlName="currentPassword" placeholder="New Password">
                             <label for="newPassword">Current Password</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input id="confirmNewPassword" type="password" class="form-control" formControlName="newPassword" placeholder="Confirm New Password">
+                            <input id="confirmNewPassword" type="password" class="form-control"
+                                formControlName="newPassword" placeholder="Confirm New Password">
                             <label for="confirmNewPassword">New Password</label>
                         </div>
                         <button type="submit" class="btn btn-primary">Save</button>
                         <div *ngIf="errorPass">
                             <div class="alert alert-danger mt-3" role="alert">
-                              {{ errorPass }}
+                                {{ errorPass }}
                             </div>
                         </div>
                     </form>
@@ -73,4 +78,4 @@
             </div>
         </div>
     </div>
-</div> 
+</div>
