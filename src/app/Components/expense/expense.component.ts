@@ -22,6 +22,7 @@ import { CategoryService } from '../../../Core/Service/category.service';
 })
 export class expenseComponent implements OnInit{
   transactions: any[] = [];
+  categories : any[] = [];
   budgets = [
     { name: 'Technology Infrastructure', allocated: 78000, spent: 132000},
     { name: 'Online Subscription', allocated: 60000, spent: 65000  },
@@ -53,6 +54,7 @@ export class expenseComponent implements OnInit{
   }
   private destroy$ = new Subject<void>();
   ngOnInit(): void {
+    this.categories = this.categoryService.categories;
     this.expenseService.getTransactions().pipe(
       takeUntil(this.destroy$)
     ).subscribe(
