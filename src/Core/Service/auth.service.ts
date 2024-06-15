@@ -22,13 +22,14 @@ export class AuthService {
     return this._HttpClient.post(`${this.apiUrl}/TokenAuth/Authenticate`, data);
   }
   // should return userName
-  decodeUser():any {
+  decodeUser():void {
     const encode = localStorage.getItem('token');
     if(encode != null){
       const decode = jwtDecode(encode);
       this.userInfo = decode;
       //this.userID = this.userInfo['userId'];
       return this.userInfo['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
+
     } 
   }
   getUserId():string{
