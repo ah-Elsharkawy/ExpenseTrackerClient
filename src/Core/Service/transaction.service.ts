@@ -49,4 +49,11 @@ export class TransactionService {
       this.loadTransactions(response.result);
     });
   }
+
+  updateTransaction(data: any): Observable<any> {
+    return this._HttpClient.put(`${this.apiUrl}/services/app/Transaction/UpdateTransaction`, data);
+  }
+
+
+
 }
