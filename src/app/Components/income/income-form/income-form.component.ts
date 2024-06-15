@@ -28,7 +28,8 @@ export class IncomeFormComponent implements OnInit {
 
   constructor(
     private _IncomeCategoryService: IncomeCategoryService,
-    private _TransactionService: TransactionService
+    private _TransactionService: TransactionService,
+    private _RcurrenceService: RecurrenceService
   ) {}
 
   ngOnInit(): void {
@@ -82,7 +83,7 @@ export class IncomeFormComponent implements OnInit {
       );
     } else {
       formData.date = this.formatDateToSend(this.incomeForm.value.date);
-      
+
       this._RcurrenceService.createRecurrence(formData).subscribe(
         (response) => {
           console.log('Recurrence submitted successfully:', response);
