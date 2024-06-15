@@ -20,7 +20,7 @@ export class TransactionService {
 
   addTransaction(transaction: any) {
     const currentTransactions = this.transactionsSource.value;
-    if (!currentTransactions.some(t => t.id === transaction.id)) { // Assuming each transaction has a unique 'id'
+    if (!currentTransactions.some(t => t.id === transaction.id)) { 
       this.transactionsSource.next([...currentTransactions, transaction]);
     }
   }
@@ -34,19 +34,21 @@ export class TransactionService {
     this.transactionsSource.next(currentTransactions);
   }
 
-
-
   loadTransactions(transactions: any[]) {
     this.transactionsSource.next(transactions);
   }
 
-  fetchTransactions(): Observable<any> {
-    return this._HttpClient.get(`${this.apiUrl}/services/app/Transaction/GetTransactions`);
+  fetchTransactionsByUserId(userId: number): Observable<any> {
+    return this._HttpClient.get(`${this.apiUrl}/services/app/Transaction/GetTransactionsByUserId?userId=${userId}`);
   }
 
-  updateTransactions() {
-    this.fetchTransactions().subscribe((response: any) => {
+  updateTransactions(userId: number) {
+    this.fetchTransactionsByUserId(userId).subscribe((response: any) => {
       this.loadTransactions(response.result);
     });
+  }
+
+  updateTransaction(data: any): Observable<any> {
+    return this._HttpClient.put(`${this.apiUrl}/services/app/Transaction/UpdateTransaction`, data);
   }
 }

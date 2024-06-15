@@ -21,7 +21,11 @@
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
     "@fortawesome/fontawesome-free": "^6.5.2",
+<<<<<<< HEAD
     "angular-datatables": "^17.1.0",
+=======
+    "@sweetalert2/ngx-sweetalert2": "^12.3.0",
+>>>>>>> develop
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.3",
     "datatables.net": "^2.0.3",
@@ -35,6 +39,7 @@
     "primeicons": "^7.0.0",
     "primeng": "^17.17.0",
     "rxjs": "~7.8.0",
+    "sweetalert2": "^11.11.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
   },
