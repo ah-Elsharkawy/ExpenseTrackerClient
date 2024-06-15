@@ -6,6 +6,7 @@ import { StepperModule } from 'primeng/stepper';
 import { ButtonModule } from 'primeng/button';
 import { TransactionService } from '../../../../Core/Service/transaction.service';
 import { AuthService } from '../../../../Core/Service/auth.service';
+import { RecurrenceService } from '../../../../Core/Service/recurrence.service';
 
 @Component({
   selector: 'app-income-form',
@@ -29,6 +30,7 @@ export class IncomeFormComponent implements OnInit {
   constructor(
     private _IncomeCategoryService: IncomeCategoryService,
     private _TransactionService: TransactionService,
+    private _RecurrenceService: RecurrenceService,
     private _AuthService: AuthService
   ) {}
 
@@ -65,27 +67,59 @@ export class IncomeFormComponent implements OnInit {
     };
     if (type === 0) {
       formData.date = this.getCurrentDate();
+
+      this._TransactionService.createTransaction(formData).subscribe(
+        (response) => {
+          console.log('Transaction submitted successfully:', response);
+          this.incomeForm.reset();
+          this._TransactionService.addTransaction({
+            ...formData,
+            date: this.formatDateToShow(formData.date),
+          });
+          this._TransactionService.updateTransactions(this.userId);
+          this.incomeForm.reset();
+        },
+        (error) => {
+          console.error('Error submitting transaction:', error);
+        }
+      );
     } else {
       formData.date = this.formatDateToSend(this.incomeForm.value.date);
+
+      this._RecurrenceService.createRecurrence(formData).subscribe(
+        (response) => {
+          console.log('Recurrence submitted successfully:', response);
+          this.incomeForm.reset();
+          this._RecurrenceService.addRecurrence({
+            ...formData,
+            date: this.formatDateToShow(formData.date),
+          });
+          // this._TransactionService.updateTransactions(this.userId);
+          // this.incomeForm.reset();
+        },
+        (error) => {
+          console.error('Error submitting Recurrence:', error);
+        }
+      );
     }
 
     console.log('Submitting transaction:', formData);
 
-    this._TransactionService.createTransaction(formData).subscribe(
-      (response) => {
-        console.log('Transaction submitted successfully:', response);
-        this.incomeForm.reset();
-        this._TransactionService.addTransaction({
-          ...formData,
-          date: this.formatDateToShow(formData.date),
-        });
-        this._TransactionService.updateTransactions(this.userId);
-        this.incomeForm.reset();
-      },
-      (error) => {
-        console.error('Error submitting transaction:', error);
-      }
-    );
+    // this._TransactionService.createTransaction(formData).subscribe(
+    //   (response) => {
+    //     console.log('Transaction submitted successfully:', response);
+    //     this.incomeForm.reset();
+    //     this._TransactionService.addTransaction({
+    //       ...formData,
+    //       date: this.formatDateToShow(formData.date),
+    //     });
+    //     this._TransactionService.updateTransactions(this.userId);
+    //     this.incomeForm.reset();
+    //   },
+    //   (error) => {
+    //     console.error('Error submitting transaction:', error);
+    //   }
+    // );
   }
 
   getEnumValue(type: string): any {
