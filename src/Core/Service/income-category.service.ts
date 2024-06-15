@@ -17,7 +17,7 @@ export class IncomeCategoryService {
   constructor(private _HttpClient: HttpClient) {}
 
   getCategories(): Observable<any> {
-    return this._HttpClient.get(`${this.apiUrl}/services/app/Category/GetCategories`).pipe(
+    return this._HttpClient.get(`${this.apiUrl}/services/app/Category/GetCategoriesByType?type=0`).pipe(
       map((response: any) => {
         this.categories = response.result;
         return response;
