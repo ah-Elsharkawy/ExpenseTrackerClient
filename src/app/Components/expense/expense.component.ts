@@ -57,8 +57,18 @@ export class expenseComponent implements OnInit{
       takeUntil(this.destroy$)
     ).subscribe(
       transactions => {
-        console.log('Transactions:', transactions.result);
         this.transactions = transactions.result;
+        this.transactions.forEach(transaction => {
+          this.categoryService.getCategoryNameById(transaction.categoryId).subscribe(
+            categoryName => {
+              transaction.categoryName = categoryName;
+              console.log('Transactions:', this.transactions);
+            },
+            error => {
+              console.error('Error fetching category name:', error);
+            }
+          );
+        });
       },
       error => {
         console.error('Error fetching transactions:', error);

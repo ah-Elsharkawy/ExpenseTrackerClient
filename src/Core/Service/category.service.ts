@@ -8,9 +8,10 @@ export class CategoryService {
 
   constructor(private _HttpClirent : HttpClient) { }
 
-  getCategoryById(id : number){
+  getCategoryNameById(id : number){
     let params = new HttpParams().set('id', id);
-    return this._HttpClirent.get(`${environment}/Category/GetCategoryById`, {params});
+    return this._HttpClirent.get(`${environment.apiUrl}/services/app/Category/GetCategoryNameById?id=${id}`);
+    
   }
 }
 

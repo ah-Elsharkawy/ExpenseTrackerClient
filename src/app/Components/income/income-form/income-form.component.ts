@@ -28,7 +28,8 @@ export class IncomeFormComponent implements OnInit {
 
   constructor(
     private _IncomeCategoryService: IncomeCategoryService,
-    private _TransactionService: TransactionService
+    private _TransactionService: TransactionService,
+    private _RcurrenceService: RecurrenceService
   ) {}
 
   ngOnInit(): void {
