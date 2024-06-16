@@ -87,8 +87,6 @@ export class IncomeFormComponent implements OnInit {
     } else {
       formData.date = this.formatDateToSend(this.incomeForm.value.date);
 
-      this._RcurrenceService.createRecurrence(formData).subscribe(
-
       this._RecurrenceService.createRecurrence(formData).subscribe(
         (response) => {
           console.log('Recurrence submitted successfully:', response);
@@ -103,7 +101,7 @@ export class IncomeFormComponent implements OnInit {
         (error) => {
           console.error('Error submitting Recurrence:', error);
         }
-      );
+      )
     }
 
     console.log('Submitting transaction:', formData);

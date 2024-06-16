@@ -29,7 +29,7 @@ export class AuthService {
       this.userInfo = decode;
       this.userID = decode.sub;
       //console.log(decode);
-    } 
+    }
   }
 
   getToken(): string | null {
