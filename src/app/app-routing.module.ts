@@ -16,15 +16,17 @@ const routes: Routes = [
     {path : "login" , canActivate :[notAuthGuardGuard] , loadComponent:()=> import("./Components/login/login.component").then(m=>m.LoginComponent)} ,
     {path : "register" , canActivate :[notAuthGuardGuard] , loadComponent:()=> import("./Components/register/register.component").then(m=>m.RegisterComponent)} ,
     {path: 'verifyEmail' , loadComponent:()=> import("./Components/verify-email/verify-email.component").then(m=>m.VerifyEmailComponent)} ,
+    {path:"ForgotPassword"  , loadComponent:()=> import("./Layout/forgotten-password-layout/forgotten-password-layout.component").then(m=>m.ForgottenPasswordLayoutComponent)} ,
+    {path:"reset-password"  , loadComponent:()=> import("./Layout/reset-forgotten/reset-forgotten.component").then(m=>m.ResetForgottenComponent)}
   ]} ,
   {path : "" , loadComponent:()=> import("./Layout/layout-main/layout-main.component").then(m=>m.LayoutMainComponent) ,children:[
     {path : "" ,  redirectTo : "home" , pathMatch : "full"} ,
-
     {path : "home" , /*canActivate : [authGuard] ,*/ loadComponent:()=> import("./Components/home/home.component").then(m=>m.HomeComponent)} ,
     {path : "income" ,/*canActivate : [authGuard] ,*/  loadComponent:()=> import("./Components/income/income.component").then(m=>m.IncomeComponent)} ,
     {path : "profile" , /*canActivate : [authGuard] ,*/ loadComponent:()=> import("./Components/profile/profile.component").then(m=>m.UserProfileComponent)} ,
     {path : "expense" , /*canActivate : [authGuard] ,*/ loadComponent:()=> import("./Components/expense/expense.component").then(m=>m.expenseComponent)} ,
   ]} ,
+
   {path : "**" , loadComponent:()=> import("./Components/notfound/notfound.component").then(m=>m.NotfoundComponent)} ,
 
 ];
