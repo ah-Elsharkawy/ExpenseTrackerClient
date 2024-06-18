@@ -47,6 +47,8 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-
+  activateAccount(email :string) : Observable<any> {
+    return this._HttpClient.post(`${this.apiUrl}/services/app/account/CreateConfirmUserByEmail`, email);
+  }
 
 }
