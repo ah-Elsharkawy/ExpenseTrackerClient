@@ -3,13 +3,13 @@ import { DataTablesModule } from 'angular-datatables';
 import { Config } from 'datatables.net';
 
 @Component({
-  selector: 'app-income-dt',
+  selector: 'app-expense-dt',
   standalone: true,
   imports: [DataTablesModule],
-  templateUrl: './income-dt.component.html',
-  styleUrl: './income-dt.component.css'
+  templateUrl: './expense-dt.component.html',
+  styleUrl: './expense-dt.component.css'
 })
-export class IncomeDTComponent implements OnInit {
+export class ExpenseDTComponent implements OnInit {
   dtOptions: Config = {};
 
   ngOnInit(): void {
@@ -19,4 +19,6 @@ export class IncomeDTComponent implements OnInit {
       processing: true
     };
   }
+
 }
+
