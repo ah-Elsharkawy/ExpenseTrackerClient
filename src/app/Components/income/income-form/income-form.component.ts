@@ -22,7 +22,7 @@ export class IncomeFormComponent implements OnInit {
   incomeForm: FormGroup = new FormGroup({
     category: new FormControl({ value: '', disabled: true }),
     amount: new FormControl(''),
-    type: new FormControl(''),
+    type: new FormControl(0),
     duration: new FormControl(''),
     date: new FormControl(''),
     description: new FormControl(''),
@@ -77,8 +77,7 @@ export class IncomeFormComponent implements OnInit {
             ...formData,
             date: this.formatDateToShow(formData.date),
           });
-          this._TransactionService.updateTransactions(this.userId);
-          this.incomeForm.reset();
+          this._TransactionService.getTransactions(this.userId);
         },
         (error) => {
           console.error('Error submitting transaction:', error);
