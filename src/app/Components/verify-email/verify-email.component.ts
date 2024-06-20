@@ -13,14 +13,16 @@ export class VerifyEmailComponent {
   constructor(private _ActivatedRoute : ActivatedRoute,private _AuthService : AuthService){}
 
   email : string = '';
+  token : string = '';
   ngOnInit(): void {
     this._ActivatedRoute.params.subscribe({
       next :(params) => {
         this.email = params['email'];
+        this.token = params['token'];
       }
     })
 
-    this._AuthService.activateAccount(this.email).subscribe({
+    this._AuthService.activateAccount(this.email,this.token).subscribe({
       next: (response: any) => {
         console.log(response);
       },
