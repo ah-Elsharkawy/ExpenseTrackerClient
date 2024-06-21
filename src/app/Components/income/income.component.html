@@ -16,16 +16,16 @@
           <mat-step label="Categories">
             <ng-template matStepLabel>Categories</ng-template>
             <div class="step-content">
-              <app-income-categories></app-income-categories>
+              <app-income-categories (categorySelected)="handleCategorySelected($event)"></app-income-categories>
             </div>
             <div class="flex pt-4 justify-content-end">
-              <button mat-button matStepperNext [disabled]="_IncomeCategoryService.isCategoryChoosen()">Next</button>
+              <button mat-button matStepperNext>Next</button>
             </div>
           </mat-step>
           <mat-step label="Income Form">
             <ng-template matStepLabel>Income Form</ng-template>
             <div class="step-content">
-              <app-income-form></app-income-form>
+              <app-income-form [selectedCategory]="selectedCategory"></app-income-form>
             </div>
             <div class="flex pt-4 justify-content-between">
               <button mat-button matStepperPrevious>Back</button>
@@ -36,3 +36,5 @@
     </div>
   </div>
 </div>
+
+

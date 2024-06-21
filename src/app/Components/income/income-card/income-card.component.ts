@@ -4,12 +4,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { TransactionService } from '../../../../Core/Service/transaction.service';
-import { IncomeCategoryService } from '../../../../Core/Service/income-category.service';
 import Swal from 'sweetalert2';
 import { ButtonModule } from 'primeng/button';
 import { StepperModule } from 'primeng/stepper';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../../Core/Service/auth.service';
+import { CategoryService } from '../../../../Core/Service/category.service';
 
 @Component({
   selector: 'app-income-card',
@@ -32,8 +32,8 @@ export class IncomeCardComponent implements OnInit {
   userId: number = 0;
   constructor(
     private _TransactionService: TransactionService,
-    private _IncomeCategoryService: IncomeCategoryService,
-    private _AuthService: AuthService
+    private _AuthService: AuthService,
+    private _CategoryService: CategoryService
   ) {}
 
   selectedTransaction: any; // Declare a property to hold the selected transaction
@@ -71,7 +71,7 @@ export class IncomeCardComponent implements OnInit {
     this.userId = this._AuthService.userID;
 
     // Fetch categories first
-    this._IncomeCategoryService.getCategories().subscribe({
+    this._CategoryService.getCategoriesByType(0).subscribe({
       next: (categoryResponse) => {
         this.categories = categoryResponse.result;
 
@@ -96,7 +96,6 @@ export class IncomeCardComponent implements OnInit {
         console.error('Failed to fetch categories', err);
       },
     });
-    this._TransactionService.updateTransactions(this.userId);
   }
 
   getTypeName(type: number): string {
@@ -108,26 +107,6 @@ export class IncomeCardComponent implements OnInit {
     return category ? category.name : 'Unknown';
   }
 
-  handleSubmit() {
-    const transactionType =
-      this.updateForm.get('type')?.value === 'Fixed' ? 0 : 1;
-    this.updateForm.get('type')?.setValue(transactionType.toString());
-    this._TransactionService.updateTransaction(this.updateForm.value).subscribe(
-      (response) => {
-        this._TransactionService.updateTransactions(this.userId);
-        Swal.fire('Success!', 'Transaction updated successfully.', 'success');
-        
-      },
-      (error) => {
-        console.error('Error updating transaction:', error);
-        Swal.fire(
-          'Error!',
-          'There was an error updating the transaction.',
-          'error'
-        );
-      }
-    );
-  }
 
   deleteTransaction(id: number) {
     Swal.fire({

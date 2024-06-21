@@ -10,54 +10,31 @@ import { AuthService } from './auth.service';
 export class ExpenseService {
   private apiUrl = environment.apiUrl;
 
-  private expensesSource = new BehaviorSubject<any[]>([]);
-  expenses$ = this.expensesSource.asObservable();
+  constructor(private _HttpClient: HttpClient , private _AuthService: AuthService) { }
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  getExpenses(id:number): Observable<any> {
+    return this._HttpClient.get<any>(`${this.apiUrl}/services/app/Transaction/GetTransactionByType?type=1&userId=${id}`);
+  }
 
-  createExpense(data: any): Observable<any> {
-    const token = this.authService.getToken();    
+  deleteExpenses(id: number): Observable<any> {
+    return this._HttpClient.delete<any>(`${this.apiUrl}/services/app/Transaction/DeleteTransaction?id=${id}`);
+  }
+
+  addExpense(data: any): Observable<any> {
+    const token = this._AuthService.getToken();    
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.post(`${this.apiUrl}/services/app/Transaction/CreateTransaction`, data, { headers });
-  }
-
-  addExpense(expense: any) {
-    const currentExpenses = this.expensesSource.value;
-    if (!currentExpenses.some(e => e.id === expense.id)) {
-      this.expensesSource.next([...currentExpenses, expense]);
-    }
-  }
-
-  deleteExpense(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/services/app/Transaction/DeleteTransaction?id=${id}`);
-  }
-
-  removeExpense(id: number) {
-    const currentExpenses = this.expensesSource.value.filter(e => e.id !== id);
-    this.expensesSource.next(currentExpenses);
-  }
-
-  loadExpenses(expenses: any[]) {
-    this.expensesSource.next(expenses);
-  }
-
-  fetchExpensesByUserId(userId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/services/app/Transaction/GetTransactionsByUserId?userId=${userId}`);
-  }
-
-  updateExpenses(userId: number) {
-    this.fetchExpensesByUserId(userId).subscribe((response: any) => {
-      this.loadExpenses(response.result);
-    });
+      return this._HttpClient.post<any>(`${this.apiUrl}/services/app/Transaction/CreateTransaction`, data , { headers });
   }
 
   updateExpense(data: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/services/app/Transaction/UpdateTransaction`, data);
+    const token = this._AuthService.getToken();    
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+      return this._HttpClient.put<any>(`${this.apiUrl}/services/app/Transaction/UpdateTransaction`, data , { headers });
   }
 
-  getExpenses(id: number): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/services/app/Transaction/GetTransactionByType?type=1&userId=${id}`);
-  }
+
 }
