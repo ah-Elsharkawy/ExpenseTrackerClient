@@ -1,45 +1,48 @@
 import { Component, OnInit } from '@angular/core';
-import { IncomeCardComponent } from './income-card/income-card.component';
 import { CommonModule } from '@angular/common';
-import { MatButton } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
+import { MatStepperModule } from '@angular/material/stepper';
+import { IncomeCardComponent } from './income-card/income-card.component';
 import { IncomeCategoriesComponent } from './income-categories/income-categories.component';
 import { IncomeFormComponent } from './income-form/income-form.component';
-import { StepperModule } from 'primeng/stepper';
-import { ButtonModule } from 'primeng/button';
-import { IncomeCategoryService } from '../../../Core/Service/income-category.service';
 import { TransactionService } from '../../../Core/Service/transaction.service';
 import { AuthService } from '../../../Core/Service/auth.service';
-import { MatStepperModule } from '@angular/material/stepper';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-income',
   standalone: true,
   imports: [
-    IncomeCardComponent,
     CommonModule,
-    MatButton,
+    MatButtonModule,
+    MatStepperModule,
+    IncomeCardComponent,
     IncomeCategoriesComponent,
-    IncomeFormComponent,
-    StepperModule,
-    ButtonModule,
-    MatStepperModule
+    IncomeFormComponent
   ],
   templateUrl: './income.component.html',
-  styleUrl: './income.component.css',
+  styleUrls: ['./income.component.css']
 })
 export class IncomeComponent implements OnInit {
   transactions: any[] = [];
+  userId: any = 0;
+  selectedCategory: { id: number, name: string } | null = null;
 
   constructor(
-    public _IncomeCategoryService: IncomeCategoryService,
     private _TransactionService: TransactionService,
     private _AuthService: AuthService
   ) {}
 
   ngOnInit(): void {
-    const userId = this._AuthService.userID;
-    this._TransactionService.getTransactions(userId).subscribe((response: any) => {
+    this.userId = this._AuthService.getUserId();
+    this._TransactionService.getTransactions(this.userId).subscribe((response) => {
       this.transactions = response.result;
     });
+  }
+
+
+
+  handleCategorySelected(category: { id: number, name: string }): void {
+    this.selectedCategory = category;
   }
 }

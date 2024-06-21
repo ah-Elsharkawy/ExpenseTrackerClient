@@ -1,13 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { IncomeCategoryService } from '../../../../Core/Service/income-category.service';
 import { StepperModule } from 'primeng/stepper';
 import { ButtonModule } from 'primeng/button';
 import { TransactionService } from '../../../../Core/Service/transaction.service';
 import { AuthService } from '../../../../Core/Service/auth.service';
-import { MatStepper } from '@angular/material/stepper';
-import { RecurrenceService } from '../../../../Core/Service/recurrence.service';
+import { CategoryService } from '../../../../Core/Service/category.service';
 
 @Component({
   selector: 'app-income-form',
@@ -18,7 +16,10 @@ import { RecurrenceService } from '../../../../Core/Service/recurrence.service';
 })
 export class IncomeFormComponent implements OnInit {
   showContent: boolean = false;
-  userId: number = 0;
+  userId: any = 0;
+
+  @Input() selectedCategory: { id: number; name: string } | null = null;
+
   incomeForm: FormGroup = new FormGroup({
     category: new FormControl({ value: '', disabled: true }),
     amount: new FormControl(''),
@@ -29,97 +30,37 @@ export class IncomeFormComponent implements OnInit {
   });
 
   constructor(
-    private _IncomeCategoryService: IncomeCategoryService,
     private _TransactionService: TransactionService,
-    private _RecurrenceService: RecurrenceService,
-    private _AuthService: AuthService
+    private _AuthService: AuthService,
+    private _CategoryService: CategoryService
   ) {}
 
   ngOnInit(): void {
-    this.userId = this._AuthService.userID;
-    this._IncomeCategoryService.categoryId.subscribe((id) => {
-      if (id !== -1) {
-        const categoryName = this._IncomeCategoryService.getCategoryNameById(id);
-        this.incomeForm.patchValue({ category: categoryName });
-      }
-    });
+    this.userId = this._AuthService.getUserId();
+    if (this.selectedCategory) {
+      this.incomeForm.patchValue({ category: this.selectedCategory.name });
+    }
+  }
 
-    this._IncomeCategoryService.getCategories().subscribe();
-
-    this.incomeForm.get('type')?.valueChanges.subscribe((value) => {
-      this.showContent = value === 'recurrence';
-    });
+  ngOnChanges(): void {
+    if (this.selectedCategory) {
+      this.incomeForm.patchValue({ category: this.selectedCategory.name });
+    }
   }
 
   handleSubmit(): void {
-    const type = this.getEnumValue(this.incomeForm.value.type);
-    const categoryId = this._IncomeCategoryService.getCategoryId();
-
-    if (categoryId === null) {
-      console.error('No category selected');
-      return;
-    }
-
-    const formData: any = {
-      ...this.incomeForm.value,
-      type: 0,
-      categoryId: categoryId,
-      category: this._IncomeCategoryService.getCategoryNameById(categoryId),
-    };
-    if (type === 0) {
-      formData.date = this.getCurrentDate();
-
-      this._TransactionService.createTransaction(formData).subscribe(
-        (response) => {
-          console.log('Transaction submitted successfully:', response);
-          this.incomeForm.reset();
-          this._TransactionService.addTransaction({
-            ...formData,
-            date: this.formatDateToShow(formData.date),
-          });
-          this._TransactionService.getTransactions(this.userId);
-        },
-        (error) => {
-          console.error('Error submitting transaction:', error);
-        }
-      );
-    } else {
-      formData.date = this.formatDateToSend(this.incomeForm.value.date);
-
-      this._RecurrenceService.createRecurrence(formData).subscribe(
-        (response) => {
-          console.log('Recurrence submitted successfully:', response);
-          this.incomeForm.reset();
-          this._RecurrenceService.addRecurrence({
-            ...formData,
-            date: this.formatDateToShow(formData.date),
-          });
-          // this._TransactionService.updateTransactions(this.userId);
-          // this.incomeForm.reset();
-        },
-        (error) => {
-          console.error('Error submitting Recurrence:', error);
-        }
-      );
-    }
-
-    console.log('Submitting transaction:', formData);
-
-    // this._TransactionService.createTransaction(formData).subscribe(
-    //   (response) => {
-    //     console.log('Transaction submitted successfully:', response);
-    //     this.incomeForm.reset();
-    //     this._TransactionService.addTransaction({
-    //       ...formData,
-    //       date: this.formatDateToShow(formData.date),
-    //     });
-    //     this._TransactionService.updateTransactions(this.userId);
-    //     this.incomeForm.reset();
-    //   },
-    //   (error) => {
-    //     console.error('Error submitting transaction:', error);
-    //   }
-    // );
+    const formValue = this.incomeForm.value;
+    formValue.type = this.getEnumValue(formValue.type);
+    formValue.date = new Date().toISOString();
+    formValue.categoryId = this.selectedCategory?.id; 
+    this._TransactionService.addTransaction(formValue).subscribe({
+      next: (data) => {
+        console.log(data);
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
   }
 
   getEnumValue(type: string): any {
@@ -129,35 +70,8 @@ export class IncomeFormComponent implements OnInit {
       case 'recurrence':
         return 1;
       default:
-        return null;
+        return -1;
     }
   }
 
-  getCurrentDate(): string {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = ('0' + (today.getMonth() + 1)).slice(-2); 
-    const day = ('0' + today.getDate()).slice(-2); 
-    return `${year}-${month}-${day}`;
-  }
-
-  formatDateToSend(date: string): string {
-    if (date) {
-      const dateObj = new Date(date);
-      const year = dateObj.getFullYear();
-      const month = ('0' + (dateObj.getMonth() + 1)).slice(-2); 
-      const day = ('0' + dateObj.getDate()).slice(-2); 
-      return `${year}-${month}-${day}`;
-    }
-    return '';
-  }
-
-  formatDateToShow(date: string): string {
-    if (date) {
-      const dateObj = new Date(date);
-      const formattedDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}/${dateObj.getFullYear()}`;
-      return formattedDate;
-    }
-    return '';
-  }
 }

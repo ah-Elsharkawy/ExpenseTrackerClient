@@ -7,7 +7,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import Swal from 'sweetalert2';
 import { ExpenseService } from '../../../../Core/Service/expense.service';
 import { AuthService } from '../../../../Core/Service/auth.service';
-import { ExpenseCategoryService } from '../../../../Core/Service/expense-category.service';
+import { CategoryService } from '../../../../Core/Service/category.service';
 @Component({
   selector: 'app-expense-card',
   standalone: true,
@@ -29,14 +29,14 @@ export class ExpenseCardComponent {
   constructor(
     private expenseService: ExpenseService,
     private authService: AuthService,
-    private expenseCategoryService: ExpenseCategoryService
+    private _CategoryService: CategoryService
   ) {}
 
   ngOnInit(): void {
     this.userId = this.authService.userID;
 
     // Fetch categories first
-    this.expenseCategoryService.getCategories().subscribe({
+    this._CategoryService.getCategoriesByType(1).subscribe({
       next: (categoryResponse) => {
         this.categories = categoryResponse.result;
 

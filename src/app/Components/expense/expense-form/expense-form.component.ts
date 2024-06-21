@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ExpenseCategoryService } from '../../../../Core/Service/expense-category.service';
 import { StepperModule } from 'primeng/stepper';
 import { ButtonModule } from 'primeng/button'; // Import ButtonModule for the stepper buttons
 import { TransactionService } from '../../../../Core/Service/transaction.service';
 import { RecurrenceService } from '../../../../Core/Service/recurrence.service';
 import { AuthService } from '../../../../Core/Service/auth.service';
 import { ExpenseService } from '../../../../Core/Service/expense.service';
+import { CategoryService } from '../../../../Core/Service/category.service';
 
 @Component({
   selector: 'app-expense-form',
@@ -22,23 +22,23 @@ export class expenseFormComponent implements OnInit {
   userId: number = 0;
 
   constructor(
-    private _expenseCategoryService: ExpenseCategoryService,
     private _TransactionService: TransactionService,
     private _RecurrenceService: RecurrenceService,
     private _AuthService: AuthService,
-    private ExpenseService: ExpenseService
+    private ExpenseService: ExpenseService,
+    private _CategoryService:CategoryService
   ) {}
 
   ngOnInit(): void {
     this.userId = this._AuthService.userID;
-    this._expenseCategoryService.categoryId.subscribe((id) => {
+    this._CategoryService.categoryId.subscribe((id) => {
       if (id !== -1) {
-        const categoryName = this._expenseCategoryService.getCategoryNameById(id);
+        const categoryName = this._CategoryService.getCategoryNameById(id);
         this.expenseForm.patchValue({ category: categoryName });
       }
     });
   
-    this._expenseCategoryService.getCategories().subscribe();
+    this._CategoryService.getCategoriesByType(1).subscribe();
   
     this.expenseForm.get('type')?.valueChanges.subscribe((value) => {
       this.showContent = value === 'recurrence';
@@ -55,48 +55,48 @@ export class expenseFormComponent implements OnInit {
   });
 
   handleSubmit(): void {
-    const type = this.getEnumValue(this.expenseForm.value.type);
-    const categoryId = this._expenseCategoryService.getCategoryId();
+    // const type = this.getEnumValue(this.expenseForm.value.type);
+    // const categoryId = this._CategoryService.getCategoryId();
 
-    if (categoryId === null) {
-      console.error('No category selected');
-      return;
-    }
+    // if (categoryId === null) {
+    //   console.error('No category selected');
+    //   return;
+    // }
 
-    const formData: any = {
-      ...this.expenseForm.value,
-      type: 1,
-      categoryId: categoryId,
-      category: this._expenseCategoryService.getCategoryNameById(categoryId),
-    };
+    // const formData: any = {
+    //   ...this.expenseForm.value,
+    //   type: 1,
+    //   categoryId: categoryId,
+    //   category: this._expenseCategoryService.getCategoryNameById(categoryId),
+    // };
 
-    if (type === 0) {
-      formData.date = this.getCurrentDate();
+    // if (type === 0) {
+    //   formData.date = this.getCurrentDate();
 
-      this._TransactionService.createTransaction(formData).subscribe(
-        (response) => {
-          console.log('Transaction submitted successfully:', response);
-          this.updateExpenses();
-          this.expenseForm.reset();
-        },
-        (error) => {
-          console.error('Error submitting transaction:', error);
-        }
-      );
-    } else {
-      formData.date = this.formatDateToSend(this.expenseForm.value.date);
+    //   this._TransactionService.createTransaction(formData).subscribe(
+    //     (response) => {
+    //       console.log('Transaction submitted successfully:', response);
+    //       this.updateExpenses();
+    //       this.expenseForm.reset();
+    //     },
+    //     (error) => {
+    //       console.error('Error submitting transaction:', error);
+    //     }
+    //   );
+    // } else {
+    //   formData.date = this.formatDateToSend(this.expenseForm.value.date);
 
-      this._RecurrenceService.createRecurrence(formData).subscribe(
-        (response) => {
-          console.log('Recurrence submitted successfully:', response);
-          this.updateExpenses();
-          this.expenseForm.reset();
-        },
-        (error) => {
-          console.error('Error submitting Recurrence:', error);
-        }
-      );
-    }
+    //   this._RecurrenceService.createRecurrence(formData).subscribe(
+    //     (response) => {
+    //       console.log('Recurrence submitted successfully:', response);
+    //       this.updateExpenses();
+    //       this.expenseForm.reset();
+    //     },
+    //     (error) => {
+    //       console.error('Error submitting Recurrence:', error);
+    //     }
+    //   );
+    // }
   }
 
   updateExpenses(): void {

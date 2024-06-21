@@ -1,3 +1,14 @@
+<div class="add-card-button-container">
+  <button
+    mat-raised-button
+    color="primary"
+    data-bs-toggle="modal"
+    data-bs-target="#incomeModal"
+  >
+    Add New Income
+  </button>
+</div>
+
 <div class="container mt-4">
   <div class="row">
     <div class="col-md-4 mb-4" *ngFor="let transaction of transactions">
@@ -32,53 +43,87 @@
   </div>
 </div>
 
+<!-- First Modal -->
 
 <!-- Modal -->
-<div class="modal modal-lg fade" id="updateModal" tabindex="-1" aria-labelledby="incomeModalLabel" aria-hidden="true">
+<div
+  class="modal modal-lg fade"
+  id="incomeModal"
+  tabindex="-1"
+  aria-labelledby="incomeModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
-        <p-stepper #stepper [linear]="true">
-          <p-stepperPanel header="Categories">
-            <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
-              <div class="flex flex-column h-12rem">
-                <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
-                
+        <mat-horizontal-stepper #stepper>
+          <mat-step label="Categories">
+            <ng-template matStepLabel>Categories</ng-template>
+            <div class="step-content">
+              <div class="category-container">
+                <div
+                  role="button"
+                  class="category-item"
+                  *ngFor="let category of categories"
+                  [ngClass]="{ selected: selectedCategoryId === category.id }"
+                  (click)="categoryClick(category.id)"
+                >
+                  <div class="icon">
+                    <mat-icon>{{ category.icon }}</mat-icon>
+                  </div>
+                  <div class="name">{{ category.name }}</div>
+                  <input
+                    type="checkbox"
+                    [checked]="selectedCategoryId === category.id"
+                    hidden
+                  />
                 </div>
               </div>
-              <div class="flex pt-4 justify-content-end">
-                <p-button label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="nextCallback.emit()" />
-              </div>
-            </ng-template>
-          </p-stepperPanel>
-          <p-stepperPanel header="Income Form">
-            <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback" let-index="index">
-              <div class="flex flex-column h-12rem">
-                <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
-                  <form [formGroup]="updateForm">
+            </div>
+            <div class="flex pt-4 justify-content-end">
+              <button mat-button matStepperNext>Next</button>
+            </div>
+          </mat-step>
+          <mat-step label="Income Form">
+            <ng-template matStepLabel>Income Form</ng-template>
+            <div class="step-content">
+                <form [formGroup]="incomeForm" (ngSubmit)="handleSubmit()">
                     <div class="form-group">
                       <label for="category">Category</label>
-                      <input type="text" class="form-control" id="category" formControlName="category" />
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="category"
+                        formControlName="category"
+                        [value]="selectedCategoryName"
+                      />
                     </div>
                     <div class="form-group">
                       <label for="amount">Amount</label>
-                      <input type="number" class="form-control" id="amount" formControlName="amount" />
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="amount"
+                        formControlName="amount"
+                      />
                     </div>
                     <div class="form-group">
                       <label for="type">Type</label>
-                      <select name="type" id="type" class="form-control" formControlName="type" (change)="onTypeChange($event)">
+                      <select name="type" id="type" class="form-control" formControlName="type">
                         <option value="" selected disabled>Select your type</option>
-                        <option value="Fixed">Fixed</option>
-                        <option value="Recurrence">Recurrence</option>
+                        <option value="fixed">Fixed</option>
+                        <option value="recurrence">Recurrence</option>
                       </select>
                     </div>
-
-
-                    <ng-container *ngIf="selectedType === 'Recurrence'">
-                      <!-- These elements will be hidden when selectedType is 'Recurrence' -->
+                    <ng-container *ngIf="showContent">
                       <div class="form-group">
                         <label for="duration">Duration</label>
                         <input
@@ -98,9 +143,6 @@
                         />
                       </div>
                     </ng-container>
-
-                    
-
                     <div class="form-group">
                       <label for="description">Description</label>
                       <textarea
@@ -114,14 +156,14 @@
                       Submit
                     </button>
                   </form>
-                </div>
-              </div>
-              <div class="flex pt-4 justify-content-between">
-                <p-button label="Back" icon="pi pi-arrow-left" (onClick)="prevCallback.emit()" />
-              </div>
-            </ng-template>
-          </p-stepperPanel>
-        </p-stepper>
+                  
+
+            </div>
+            <div class="flex pt-4 justify-content-between">
+              <button mat-button matStepperPrevious>Back</button>
+            </div>
+          </mat-step>
+        </mat-horizontal-stepper>
       </div>
     </div>
   </div>
