@@ -36,5 +36,7 @@ export class TransactionService {
       return this._HttpClient.put<any>(`${this.apiUrl}/services/app/Transaction/UpdateTransaction`, data , { headers });
   }
 
-
+  getTransactionByType(userId: number, type:number): Observable<any> {
+    return this._HttpClient.get(`${this.apiUrl}/services/app/Transaction/GetTransactionByType?type=${type}&userId=${userId}`);
+  }
 }
