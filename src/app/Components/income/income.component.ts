@@ -36,7 +36,7 @@ export class IncomeComponent implements OnInit {
     private _AuthService: AuthService
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {  
     const userId = this._AuthService.userID;
     this._TransactionService.fetchTransactionsByUserId(userId).subscribe((response: any) => {
       this.transactions = response.result;

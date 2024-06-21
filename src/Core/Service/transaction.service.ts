@@ -16,7 +16,7 @@ export class TransactionService {
 
   createTransaction(data: any): Observable<any> {
 
-    const token = this._AuthService.getToken();    
+    const token = this._AuthService.getToken();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
@@ -26,7 +26,7 @@ export class TransactionService {
 
   addTransaction(transaction: any) {
     const currentTransactions = this.transactionsSource.value;
-    if (!currentTransactions.some(t => t.id === transaction.id)) { 
+    if (!currentTransactions.some(t => t.id === transaction.id)) {
       this.transactionsSource.next([...currentTransactions, transaction]);
     }
   }
@@ -57,4 +57,9 @@ export class TransactionService {
   updateTransaction(data: any): Observable<any> {
     return this._HttpClient.put(`${this.apiUrl}/services/app/Transaction/UpdateTransaction`, data);
   }
+
+  getTransactionByType(userId: number, type:number): Observable<any> {
+    return this._HttpClient.get(`${this.apiUrl}/services/app/Transaction/GetTransactionByType?type=${type}&userId=${userId}`);
+  }
+
 }
