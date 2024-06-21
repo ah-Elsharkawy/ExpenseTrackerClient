@@ -114,7 +114,13 @@ export class CombinedExpenseComponent {
   loadExpense() {
     this.userId = this._AuthService.getUserId();
     this._ExpenseService.getExpenses(this.userId).subscribe((data) => {
-      this.transactions = data.result;
+      this.transactions = data.result.map((transaction : any) => {
+        const category = this.categories.find(cat => cat.id === transaction.categoryId);
+        return {
+          ...transaction,
+          categoryName: category ? category.name : 'Unknown Category'
+        };
+      });
     });
   }
 
@@ -135,6 +141,7 @@ export class CombinedExpenseComponent {
     formValue.type = 1;
     formValue.date = new Date().toISOString();
     formValue.categoryId = this.selectedCategoryId;
+    formValue.categoryName = this.selectedCategoryName;
 
     this._ExpenseService.addExpense(formValue).subscribe({
       next: (res) => {

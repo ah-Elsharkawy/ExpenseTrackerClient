@@ -113,7 +113,13 @@ export class CombinedIncomeComponent implements OnInit {
   loadTransactions() {
     this.userId = this._AuthService.getUserId();
     this._TransactionService.getTransactions(this.userId).subscribe((data) => {
-      this.transactions = data.result;
+      this.transactions = data.result.map((transaction : any) => {
+        const category = this.categories.find(cat => cat.id === transaction.categoryId);
+        return {
+          ...transaction,
+          categoryName: category ? category.name : 'Unknown Category'
+        };
+      });
     });
   }
 
