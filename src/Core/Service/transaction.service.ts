@@ -58,6 +58,12 @@ export class TransactionService {
     return this._HttpClient.put(`${this.apiUrl}/services/app/Transaction/UpdateTransaction`, data);
   }
 
+
+  getTransactions(id:number): Observable<any> {
+    return this._HttpClient.get<any>(`${environment.apiUrl}/services/app/Transaction/GetTransactionByType?type=0&userId=${id}`);
+  }
+
+
   getTransactionByType(userId: number, type:number): Observable<any> {
     return this._HttpClient.get(`${this.apiUrl}/services/app/Transaction/GetTransactionByType?type=${type}&userId=${userId}`);
   }

@@ -7,7 +7,7 @@
         </button>
         <mat-card-content>
           <p>Income: ${{ transaction.amount }}</p>
-          <p>Type: {{ transaction.typeName }}</p>
+          <p>Type: {{ getTypeName(transaction.type) }}</p>
           <p>Description: {{ transaction.description }}</p>
           <p *ngIf="transaction.date">Date: {{ transaction.date }}</p>
           <button

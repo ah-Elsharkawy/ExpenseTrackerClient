@@ -7,6 +7,7 @@ import { ButtonModule } from 'primeng/button'; // Import ButtonModule for the st
 import { TransactionService } from '../../../../Core/Service/transaction.service';
 import { RecurrenceService } from '../../../../Core/Service/recurrence.service';
 import { AuthService } from '../../../../Core/Service/auth.service';
+import { ExpenseService } from '../../../../Core/Service/expense.service';
 
 @Component({
   selector: 'app-expense-form',
@@ -24,7 +25,8 @@ export class expenseFormComponent implements OnInit {
     private _expenseCategoryService: ExpenseCategoryService,
     private _TransactionService: TransactionService,
     private _RecurrenceService: RecurrenceService,
-    private _AuthService: AuthService
+    private _AuthService: AuthService,
+    private ExpenseService: ExpenseService
   ) {}
 
   ngOnInit(): void {
@@ -35,7 +37,9 @@ export class expenseFormComponent implements OnInit {
         this.expenseForm.patchValue({ category: categoryName });
       }
     });
-
+  
+    this._expenseCategoryService.getCategories().subscribe();
+  
     this.expenseForm.get('type')?.valueChanges.subscribe((value) => {
       this.showContent = value === 'recurrence';
     });
@@ -65,18 +69,14 @@ export class expenseFormComponent implements OnInit {
       categoryId: categoryId,
       category: this._expenseCategoryService.getCategoryNameById(categoryId),
     };
+
     if (type === 0) {
       formData.date = this.getCurrentDate();
 
       this._TransactionService.createTransaction(formData).subscribe(
         (response) => {
           console.log('Transaction submitted successfully:', response);
-          this.expenseForm.reset();
-          this._TransactionService.addTransaction({
-            ...formData,
-            date: this.formatDateToShow(formData.date),
-          });
-          this._TransactionService.updateTransactions(this.userId);
+          this.updateExpenses();
           this.expenseForm.reset();
         },
         (error) => {
@@ -89,13 +89,8 @@ export class expenseFormComponent implements OnInit {
       this._RecurrenceService.createRecurrence(formData).subscribe(
         (response) => {
           console.log('Recurrence submitted successfully:', response);
+          this.updateExpenses();
           this.expenseForm.reset();
-          this._RecurrenceService.addRecurrence({
-            ...formData,
-            date: this.formatDateToShow(formData.date),
-          });
-          // this._TransactionService.updateTransactions(this.userId);
-          // this.incomeForm.reset();
         },
         (error) => {
           console.error('Error submitting Recurrence:', error);
@@ -104,6 +99,17 @@ export class expenseFormComponent implements OnInit {
     }
   }
 
+  updateExpenses(): void {
+    this.ExpenseService.getExpenses(this.userId).subscribe(
+      (response) => {
+        console.log('Expenses fetched successfully:', response);
+        // Handle the response, e.g., update a list of expenses in your component
+      },
+      (error) => {
+        console.error('Error fetching expenses:', error);
+      }
+    );
+  }
 
   getEnumValue(type: string): any {
     switch (type) {
@@ -119,8 +125,8 @@ export class expenseFormComponent implements OnInit {
   getCurrentDate(): string {
     const today = new Date();
     const year = today.getFullYear();
-    const month = ('0' + (today.getMonth() + 1)).slice(-2); 
-    const day = ('0' + today.getDate()).slice(-2); 
+    const month = ('0' + (today.getMonth() + 1)).slice(-2);
+    const day = ('0' + today.getDate()).slice(-2);
     return `${year}-${month}-${day}`;
   }
 
@@ -128,8 +134,8 @@ export class expenseFormComponent implements OnInit {
     if (date) {
       const dateObj = new Date(date);
       const year = dateObj.getFullYear();
-      const month = ('0' + (dateObj.getMonth() + 1)).slice(-2); 
-      const day = ('0' + dateObj.getDate()).slice(-2); 
+      const month = ('0' + (dateObj.getMonth() + 1)).slice(-2);
+      const day = ('0' + dateObj.getDate()).slice(-2);
       return `${year}-${month}-${day}`;
     }
     return '';
