@@ -1,0 +1,166 @@
+<div class="add-card-button-container">
+  <button
+    mat-raised-button
+    color="primary"
+    data-bs-toggle="modal"
+    data-bs-target="#expenseModal"
+  >
+    Add New Expense
+  </button>
+</div>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let transaction of transactions">
+      <mat-card class="budget-card shadow">
+        <button mat-button color="primary">
+          {{ transaction.categoryName }}
+        </button>
+        <mat-card-content>
+          <p>Income: ${{ transaction.amount }}</p>
+          <p>Description: {{ transaction.description }}</p>
+          <p *ngIf="transaction.date">Date: {{ transaction.date }}</p>
+          <button
+            mat-raised-button
+            color="primary"
+            data-bs-toggle="modal"
+            data-bs-target="#updateModal"
+          >
+            Update
+          </button>
+          <button
+            mat-raised-button
+            color="warn"
+            (click)="deleteTransaction(transaction.id)"
+          >
+            Delete
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
+
+<!-- First Modal -->
+
+<!-- Modal -->
+<div
+  class="modal modal-lg fade"
+  id="expenseModal"
+  tabindex="-1"
+  aria-labelledby="incomeModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <mat-horizontal-stepper #stepper>
+          <mat-step label="Categories">
+            <ng-template matStepLabel>Categories</ng-template>
+            <div class="step-content">
+              <div class="category-container">
+                <div
+                  role="button"
+                  class="category-item"
+                  *ngFor="let category of categories"
+                  [ngClass]="{ selected: selectedCategoryId === category.id }"
+                  (click)="categoryClick(category.id)"
+                >
+                  <div class="icon">
+                    <mat-icon>{{ category.icon }}</mat-icon>
+                  </div>
+                  <div class="name">{{ category.name }}</div>
+                  <input
+                    type="checkbox"
+                    [checked]="selectedCategoryId === category.id"
+                    hidden
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="flex pt-4 justify-content-end">
+              <button mat-button matStepperNext>Next</button>
+            </div>
+          </mat-step>
+          <mat-step label="Income Form">
+            <ng-template matStepLabel>Expense Form</ng-template>
+            <div class="step-content">
+                <form [formGroup]="expenseForm" (ngSubmit)="handleSubmit()">
+                    <div class="form-group">
+                      <label for="category">Category</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="category"
+                        formControlName="category"
+                        [value]="selectedCategoryName"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="amount">Amount</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="amount"
+                        formControlName="amount"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="type">Type</label>
+                      <select name="type" id="type" class="form-control" formControlName="type">
+                        <option value="" selected disabled>Select your type</option>
+                        <option value="fixed">Fixed</option>
+                        <option value="recurrence">Recurrence</option>
+                      </select>
+                    </div>
+                    <ng-container *ngIf="showContent">
+                      <div class="form-group">
+                        <label for="duration">Duration</label>
+                        <input
+                          type="text"
+                          id="duration"
+                          formControlName="duration"
+                          class="form-control"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label for="date">Date</label>
+                        <input
+                          type="date"
+                          class="form-control"
+                          id="date"
+                          formControlName="date"
+                        />
+                      </div>
+                    </ng-container>
+                    <div class="form-group">
+                      <label for="description">Description</label>
+                      <textarea
+                        id="description"
+                        formControlName="description"
+                        class="form-control"
+                        rows="3"
+                      ></textarea>
+                    </div>
+                    <button data-bs-dismiss="modal" type="submit" class="btn btn-primary mt-3">
+                      Submit
+                    </button>
+                  </form>
+                  
+            </div>
+            <div class="flex pt-4 justify-content-between">
+              <button mat-button matStepperPrevious>Back</button>
+            </div>
+          </mat-step>
+        </mat-horizontal-stepper>
+      </div>
+    </div>
+  </div>
+</div>
