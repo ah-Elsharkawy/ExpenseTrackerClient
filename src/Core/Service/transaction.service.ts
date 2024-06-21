@@ -28,6 +28,13 @@ export class TransactionService {
       return this._HttpClient.post<any>(`${this.apiUrl}/services/app/Transaction/CreateTransaction`, data , { headers });
   }
 
+  updateTransaction(data: any): Observable<any> {
+    const token = this._AuthService.getToken();    
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+      return this._HttpClient.put<any>(`${this.apiUrl}/services/app/Transaction/UpdateTransaction`, data , { headers });
+  }
 
 
 }

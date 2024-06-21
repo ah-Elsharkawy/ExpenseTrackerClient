@@ -34,10 +34,12 @@ export class CombinedExpenseComponent {
   transactions: any[] = [];
   userId: any = 0;
   categories: Category[] = [];
-  selectedCategory: Category | null = null;
+  selectedCategory: Category | undefined = undefined;
   showContent: boolean = false;
   selectedCategoryId: number | null = null;
   selectedCategoryName: string = '';
+  selectedTransaction: any;
+  selectedType: string = '';
 
   constructor(
     private _AuthService: AuthService,
@@ -54,11 +56,15 @@ export class CombinedExpenseComponent {
     description: new FormControl(''),
   });
 
-  // deleteTransaction(id: number) {
-  //   this._TransactionService.deleteTransaction(id).subscribe((res) => {
-  //     this.loadTransactions();
-  //   });
-  // }
+  updateForm: FormGroup = new FormGroup({
+    category: new FormControl({ value: '', disabled: true }),
+    amount: new FormControl(''),
+    type: new FormControl(1),
+    duration: new FormControl(''),
+    date: new FormControl(''),
+    description: new FormControl(''),
+  });
+
 
   deleteTransaction(id: number) {
     Swal.fire({
@@ -93,8 +99,25 @@ export class CombinedExpenseComponent {
     });
   }
 
-  openUpdateModal(transaction: any) {
-    console.log('Transaction updated: ', transaction);
+  openUpdateModal(transaction: any): void {
+    this.selectedTransaction = transaction;
+    this.selectedType = transaction.typeName;
+    const category = this.categories.find(cat => cat.id === transaction.categoryId);
+    this.selectedCategory = category;
+    this.selectedCategoryId = category?.id || null;
+    this.selectedCategoryName = category?.name || '';
+    
+    console.log('Selected Transaction:', transaction);
+    console.log('Selected Type:', this.selectedType);
+    console.log('Selected Category:', this.selectedCategory);
+    this.updateForm.patchValue({
+      category: transaction.categoryName,
+      amount: transaction.amount,
+      type: 1,
+      duration: transaction.duration,
+      date: transaction.date,
+      description: transaction.description,
+    });
   }
 
   ngOnInit(): void {
@@ -121,6 +144,24 @@ export class CombinedExpenseComponent {
           categoryName: category ? category.name : 'Unknown Category'
         };
       });
+    });
+  }
+
+  handleUpdate(): void {
+    this.selectedTransaction.categoryId = this.selectedCategoryId;
+    this.selectedTransaction.categoryName = this.selectedCategoryName;
+    this.selectedTransaction.amount = this.updateForm.get('amount')?.value;
+    this.selectedTransaction.description = this.updateForm.get('description')?.value;
+    this.selectedTransaction.date = this.updateForm.get('date')?.value;
+
+    this._ExpenseService.updateExpense(this.selectedTransaction).subscribe(() => {
+      Swal.fire({
+        title: "Good job!",
+        text: "You have been updated expense successfully!",
+        icon: "success"
+      });
+      this.loadExpense();
+      this.updateForm.reset();
     });
   }
 
