@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import {Response} from '../Interface/Response';
+import { ResetPassword } from '../Interface/ResetPassword';
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +47,12 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+  generateToken(email:string):Observable<Response>{
+    return this._HttpClient.get<Response>(`${this.apiUrl}/services/app/User/GetPasswordResetToken?email=${email}`);
+  }
+  ResetPassword(data : ResetPassword):Observable<Response>{
+    return this._HttpClient.post<Response>(`${this.apiUrl}/services/app/User/ResetForgottenPassword`, data);
   }
 
   activateAccount(Email :string, token:string) : Observable<any> {

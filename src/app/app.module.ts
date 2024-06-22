@@ -10,7 +10,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { MaterialModule } from './angular-module/angular-module.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {  AuthInterceptorInterceptor } from './interceptors/auth-interceptor.interceptor';
-import {DataTablesModule} from 'angular-datatables'
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 @NgModule({
   declarations: [
@@ -24,7 +24,8 @@ import {DataTablesModule} from 'angular-datatables'
     ToastrModule.forRoot(),
     NgxSpinnerModule.forRoot({type: 'square-jelly-box' }),
     MaterialModule,
-    DataTablesModule
+    SweetAlert2Module.forRoot(),
+
   ],
   providers: [
     provideAnimationsAsync(),
