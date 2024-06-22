@@ -4,13 +4,15 @@ import {  Router, RouterLink } from '@angular/router';
 import { IncomeFormComponent } from '../income/income-form/income-form.component';
 import { SideBarComponent } from '../side-bar/side-bar.component';
 import { AuthService } from '../../../Core/Service/auth.service';
+import { DialogModule } from 'primeng/dialog';
+
 //import * as bootstrap from "bootstrap";
 
 
 @Component({
   selector: 'app-nav-main',
   standalone: true,
-  imports: [CommonModule , RouterLink ,IncomeFormComponent,SideBarComponent],
+  imports: [CommonModule , RouterLink ,IncomeFormComponent,SideBarComponent,DialogModule],
   templateUrl: './nav-main.component.html',
   styleUrl: './nav-main.component.css'
 })

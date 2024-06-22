@@ -1,0 +1,103 @@
+
+<p-button (click)="showAddRecurrenceModal()" label="Show" />
+<p-dialog 
+    header="Header" 
+    [(visible)]="modalVisible" 
+    [modal]="true" 
+    [style]="{ width: '30rem' }"
+    [draggable]="false"
+    [resizable]="false">
+        
+    <ng-template pTemplate="header">
+        <div class="inline-flex align-items-center justify-content-between gap-2" style="width: 100%;">
+            <h3>Recurrence Details</h3>
+        </div>
+    </ng-template>
+    
+    <ng-template pTemplate="footer">
+        <div class="flex justify-content-end gap-2" style="width: 100%;">
+            <p-button 
+                label="Cancel" 
+                [text]="true" 
+                severity="secondary" 
+                (click)="modalVisible = false" />
+            <p-button 
+                label="Save" 
+                [outlined]="true" 
+                severity="secondary" 
+                (click)="saveRecurrence()"
+                [disabled]="!validateRecurrence()" />
+            
+        </div>
+    </ng-template>
+    
+    <ng-template pTemplate="content">
+        <div class="p-fluid">
+            <p-floatLabel class="m-3">
+                <p-inputNumber  id="amount"  [(ngModel)]="recurrence.amount" [min]="0" />
+                <label for="amount">Amount</label>
+            </p-floatLabel>
+            <div class="m-3">
+                <label for="type">Type</label>
+                <p-toggleButton id="type" (onChange)="ToggleType()" onLabel="Income" offLabel="Expense"></p-toggleButton>
+            </div>
+            <p-floatLabel class="m-3">
+                <p-inputNumber  id="duration"  [(ngModel)]="recurrence.duration" [min] = "0" />
+                <label for="duration">Duration in months</label>
+            </p-floatLabel>
+            <p-floatLabel class="m-3">
+                <input pInputText id="date" type="date" [(ngModel)]="recurrence.date" />
+                <label for="date">Date</label>
+            </p-floatLabel>
+                <p-dropdown id="category"  [options]="categories" (onChange)="updateCategory()" [(ngModel)]="selectedCategory" optionLabel="name" placeholder="Select a category"></p-dropdown>
+            <p-floatLabel class="m-3">
+                <input pInputText id="description" type="text" [(ngModel)]="recurrence.description" />
+                <label for="description">Description</label>
+            </p-floatLabel>
+            
+        </div>
+    </ng-template>
+</p-dialog>
+<p-table 
+    [value]="recurrences" 
+    [rows]="5" 
+    [tableStyle]="{ 'min-width': '50rem' }" 
+    [rowsPerPageOptions]="[5, 10, 20]" 
+    [paginator]="true">
+    <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between">
+            Recurrences
+            <p-button icon="pi pi-refresh"></p-button>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="amount">Amount
+                <p-sortIcon field="amount"></p-sortIcon>
+            </th>
+            <th>Type</th>
+            <th pSortableColumn="duration">Duration
+                <p-sortIcon field="duration"></p-sortIcon>
+            </th>
+            <th pSortableColumn="date">Date
+                <p-sortIcon field="date"></p-sortIcon>
+            </th>
+            <th>Actions</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-recurrence>
+        <tr>
+            <td>{{recurrence.amount}}</td>
+            <td>{{recurrence.type}}</td>
+            <td>{{recurrence.duration}}</td>
+            <td>{{recurrence.date | date:'yyyy-MM-dd'}}</td>
+
+              <button class="btn btn-danger btn-sm" (click)="deleteRecurrence(recurrence.id)">
+                <i class="fa fa-trash"></i>
+              </button>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between"></div>
+    </ng-template>
+</p-table>
