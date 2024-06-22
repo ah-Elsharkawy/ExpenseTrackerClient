@@ -3,13 +3,14 @@ import { Transaction } from '../Interface/transaction';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { Observable, map } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InsightsService {
   transactions = new Array<Transaction>();
-  private apiUrl = 'http://localhost:44311/api/services/app/Transaction/GetTransactionsByUserId';
+  private apiUrl = environment.apiUrl+'/services/app/Transaction/GetTransactionsByUserId';
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
