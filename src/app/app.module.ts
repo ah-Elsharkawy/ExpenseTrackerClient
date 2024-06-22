@@ -24,7 +24,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     ToastrModule.forRoot(),
     NgxSpinnerModule.forRoot({type: 'square-jelly-box' }),
     MaterialModule,
-    SweetAlert2Module.forRoot()
+    SweetAlert2Module.forRoot(),
     
   ],
   providers: [

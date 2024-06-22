@@ -9,7 +9,7 @@ import { Observable, map } from 'rxjs';
 })
 export class InsightsService {
   transactions = new Array<Transaction>();
-  private apiUrl = 'http://expensetrackerapis.azurewebsites.net/api/services/app/Transaction/GetTransactionsByUserId';
+  private apiUrl = 'http://localhost:44311/api/services/app/Transaction/GetTransactionsByUserId';
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
