@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../Core/Service/auth.service';
 
@@ -7,22 +7,27 @@ import { AuthService } from '../../../Core/Service/auth.service';
   standalone: true,
   imports: [],
   templateUrl: './verify-email.component.html',
-  styleUrl: './verify-email.component.css'
+  styleUrls: ['./verify-email.component.css']  // Note the change from 'styleUrl' to 'styleUrls'
 })
-export class VerifyEmailComponent {
-  constructor(private _ActivatedRoute : ActivatedRoute,private _AuthService : AuthService){}
+export class VerifyEmailComponent implements OnInit {
+  email: string = '';
+  token: string = '';
 
-  email : string = '';
-  token : string = '';
+  constructor(private _ActivatedRoute: ActivatedRoute, private _AuthService: AuthService) {}
+
   ngOnInit(): void {
-    this._ActivatedRoute.params.subscribe({
-      next :(params) => {
-        this.email = params['email'];
-        this.token = params['token'];
+    this._ActivatedRoute.queryParams.subscribe({
+      next: (queryParams) => {
+        this.email = queryParams['Email'];
+        this.token = queryParams['token'];
       }
-    })
+    });
 
-    this._AuthService.activateAccount(this.email,this.token).subscribe({
+    console.log(this.email);
+    console.log('======================================');
+    console.log(this.token);
+
+    this._AuthService.activateAccount(this.email, this.token).subscribe({
       next: (response: any) => {
         console.log(response);
       },
@@ -31,5 +36,4 @@ export class VerifyEmailComponent {
       }
     });
   }
-
 }

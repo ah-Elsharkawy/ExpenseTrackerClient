@@ -47,8 +47,8 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  activateAccount(email :string, token:string) : Observable<any> {
-    const payload = { email: email, token: token };
+  activateAccount(Email :string, token:string) : Observable<any> {
+    const payload = { email: Email, token: token };
     return this._HttpClient.post(`${this.apiUrl}/services/app/user/ConfirmEmail`, payload);
   }
 
