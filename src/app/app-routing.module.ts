@@ -22,7 +22,7 @@ const routes: Routes = [
   {path : "" , loadComponent:()=> import("./Layout/layout-main/layout-main.component").then(m=>m.LayoutMainComponent) ,children:[
     {path : "" ,  redirectTo : "home" , pathMatch : "full"} ,
     {path : "home" , /*canActivate : [authGuard] ,*/ loadComponent:()=> import("./Components/home/home.component").then(m=>m.HomeComponent)} ,
-    {path : "income" ,/*canActivate : [authGuard] ,*/  loadComponent:()=> import("./Components/income/income.component").then(m=>m.IncomeComponent)} ,
+    {path : "income" ,/*canActivate : [authGuard] ,*/  loadComponent:()=> import("./Components/combined-income/combined-income.component").then(m=>m.CombinedIncomeComponent)} ,
     {path : "profile" , /*canActivate : [authGuard] ,*/ loadComponent:()=> import("./Components/profile/profile.component").then(m=>m.UserProfileComponent)} ,
     {path : "expense" , /*canActivate : [authGuard] ,*/ loadComponent:()=> import("./Components/expense/expense.component").then(m=>m.expenseComponent)} ,
     {path : "recurrence" , /*canActivate : [authGuard] ,*/ loadComponent:()=> import("./Components/recurrence/recurrence.component").then(m=>m.RecurrenceComponent)} ,

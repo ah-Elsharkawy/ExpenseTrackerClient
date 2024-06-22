@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { NavMainComponent } from '../../Components/nav-main/nav-main.component';
 import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from '../../Components/footer/footer.component';
-import { SideMenuComponent } from '../../Components/side-menu/side-menu.component';
 import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
@@ -14,7 +13,6 @@ import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
     NavMainComponent,
     RouterOutlet,
     FooterComponent,
-    SideMenuComponent,
     NgxSpinnerComponent
   ],
   templateUrl: './layout-main.component.html',
