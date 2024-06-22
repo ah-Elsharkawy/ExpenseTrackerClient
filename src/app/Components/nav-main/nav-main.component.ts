@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {  Router, RouterLink } from '@angular/router';
-import { IncomeFormComponent } from '../income/income-form/income-form.component';
 import { SideBarComponent } from '../side-bar/side-bar.component';
 import { AuthService } from '../../../Core/Service/auth.service';
 import { DialogModule } from 'primeng/dialog';
@@ -12,7 +11,7 @@ import { DialogModule } from 'primeng/dialog';
 @Component({
   selector: 'app-nav-main',
   standalone: true,
-  imports: [CommonModule , RouterLink ,IncomeFormComponent,SideBarComponent,DialogModule],
+  imports: [CommonModule , RouterLink ,SideBarComponent,DialogModule],
   templateUrl: './nav-main.component.html',
   styleUrl: './nav-main.component.css'
 })
