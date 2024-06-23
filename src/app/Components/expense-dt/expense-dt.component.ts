@@ -4,6 +4,7 @@ import { Config } from 'datatables.net';
 import { TransactionService } from '../../../Core/Service/transaction.service';
 import { AuthService } from '../../../Core/Service/auth.service';
 import { CommonModule } from '@angular/common';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-expense-dt',
@@ -16,6 +17,7 @@ export class ExpenseDTComponent implements OnInit {
   dtOptions: Config = {};
   expensesTransactions: any[] = [];
   expense: number = 1;
+  dtTrigger: Subject<any> = new Subject<any>();
 
   constructor(
     private _TransactionService: TransactionService,
@@ -32,6 +34,7 @@ export class ExpenseDTComponent implements OnInit {
     const userId = this._AuthService.userID;
     this._TransactionService.getTransactionByType(userId, this.expense).subscribe((response: any) => {
       this.expensesTransactions = response.result;
+      this.dtTrigger.next(null);
     });
 
   }
