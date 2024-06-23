@@ -1,0 +1,20 @@
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+      <th>amount</th>
+      <th>category</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let expense of expensesTransactions">
+      <td>{{ expense.type }}</td>
+      <td>{{ expense.description }}</td>
+      <td>{{ expense.amount }}</td>
+      <td>{{ expense.categoryId }}</td>
+      <td>{{ expense.date | date:'medium' }}</td>
+    </tr>
+  </tbody>
+</table>

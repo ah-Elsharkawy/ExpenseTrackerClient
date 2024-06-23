@@ -32,7 +32,7 @@ export class AuthService {
       //this.userID = this.userInfo['userId'];
       return this.userInfo['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
 
-    } 
+    }
   }
   getUserId():string{
     const encode = localStorage.getItem('token');
@@ -55,6 +55,9 @@ export class AuthService {
     return this._HttpClient.post<Response>(`${this.apiUrl}/services/app/User/ResetForgottenPassword`, data);
   }
 
-
+  activateAccount(Email :string, token:string) : Observable<any> {
+    const payload = { email: Email, token: token };
+    return this._HttpClient.post(`${this.apiUrl}/services/app/user/ConfirmEmail`, payload);
+  }
 
 }

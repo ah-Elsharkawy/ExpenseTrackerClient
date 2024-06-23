@@ -45,11 +45,17 @@
               "src/styles.css",
               "./node_modules/ngx-toastr/toastr.css",
               "./node_modules/ngx-spinner/animations/square-jelly-box.css",
+<<<<<<< HEAD
+              "node_modules/datatables.net-dt/css/dataTables.dataTables.min.css"
+=======
               "./node_modules/sweetalert2/src/sweetalert2.scss"
+>>>>>>> develop
             ],
             "scripts": [
               "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
-              "./node_modules/@fortawesome/fontawesome-free/js/all.min.js"
+              "./node_modules/@fortawesome/fontawesome-free/js/all.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/datatables.net/js/dataTables.min.js"
             ]
           },
           "configurations": {

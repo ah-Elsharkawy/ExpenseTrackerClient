@@ -21,7 +21,7 @@ export class TransactionService {
   }
 
   addTransaction(data: any): Observable<any> {
-    const token = this._AuthService.getToken();    
+    const token = this._AuthService.getToken();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
@@ -29,12 +29,14 @@ export class TransactionService {
   }
 
   updateTransaction(data: any): Observable<any> {
-    const token = this._AuthService.getToken();    
+    const token = this._AuthService.getToken();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
       return this._HttpClient.put<any>(`${this.apiUrl}/services/app/Transaction/UpdateTransaction`, data , { headers });
   }
 
-
+  getTransactionByType(userId: number, type:number): Observable<any> {
+    return this._HttpClient.get(`${this.apiUrl}/services/app/Transaction/GetTransactionByType?type=${type}&userId=${userId}`);
+  }
 }
