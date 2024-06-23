@@ -1,0 +1,34 @@
+/* income-dt.component.css */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  background-color: #f2f2f2;
+  color: #333;
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+tbody tr {
+  border-bottom: 1px solid #ddd;
+}
+
+tbody tr.income-row {
+  background-color: #e0f7fa; /* Light cyan for income */
+}
+
+tbody tr.expense-row {
+  background-color: #ffebee; /* Light pink for expense */
+}
+
+tbody tr:hover {
+  background-color: #f1f1f1; /* Light gray on hover */
+}
+
+td {
+  padding: 8px;
+  text-align: left;
+}

@@ -14,8 +14,7 @@ import { Subject } from 'rxjs';
   styleUrls: ['./income-dt.component.css'], // corrected styleUrl to styleUrls
 })
 export class IncomeDTComponent implements OnInit {
-  IncomeTransactions: any[] = [];
-  income: number = 0;
+  allTransactions: any[] = [];
   dtTrigger: Subject<any> = new Subject<any>();
   constructor(
     private _TransactionService: TransactionService,
@@ -33,11 +32,11 @@ export class IncomeDTComponent implements OnInit {
 
     const userId = this._AuthService.userID;
     this._TransactionService
-      .getTransactionByType(userId, this.income)
+      .getTransactionsByUserId(userId)
       .subscribe((response) => {
-        this.IncomeTransactions = response.result;
+        this.allTransactions = response.result;
         this.dtTrigger.next(null);
-        console.log(this.IncomeTransactions);
+        console.log(this.allTransactions);
       });
   }
 }
