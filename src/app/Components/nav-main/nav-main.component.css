@@ -1,0 +1,8 @@
+.notification-item {
+    margin: 2px 0; /* Adjust the margin size as needed */
+    border-radius: 5px; /* Adjust the border-radius for rounded corners */
+  }
+
+  .read-notification {
+    background-color: #e0e0e0; /* Light grey color */
+  }

@@ -69,4 +69,8 @@ export class AuthService {
     return this._HttpClient.get(`${this.apiUrl}/services/app/Notification/GetNotifications`, httpOptions);
   }
 
+  updateNotification(id : number):Observable<any>{
+    return this._HttpClient.put(`${this.apiUrl}/services/app/Notification/updateNotification?notificationId=${id}`, {});
+  }
+
 }

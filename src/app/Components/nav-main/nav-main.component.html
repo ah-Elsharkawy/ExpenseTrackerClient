@@ -11,13 +11,13 @@
         <li class="nav-item dropdown gap-2">
           <a class="nav-link dropdown-toggle" href="#" id="notificationsDropdown" role="button"
             data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fa-regular fa-bell"></i> <span class="badge bg-secondary">{{notifications.length}}</span>
+            <i class="fa-regular fa-bell"></i> <span class="badge bg-secondary">{{unreadNotificationsCount}}</span>
           </a>
           <ul class="dropdown-menu" aria-labelledby="notificationsDropdown">
-            <li *ngFor="let notification of notifications">
-              <a class="dropdown-item" href="#">
+            <li *ngFor="let notification of notifications" [ngClass]="{'read-notification': !notification.isRead}">
+              <p class="dropdown-item notification-item" (click)="markAsRead(notification)">
                 {{notification.message}}
-              </a>
+              </p>
             </li>
           </ul>
         </li>

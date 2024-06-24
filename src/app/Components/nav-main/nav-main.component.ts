@@ -21,6 +21,7 @@ export class NavMainComponent {
 
   userEmail : string = "";
   notifications : any[] = [];
+  unreadNotificationsCount : number = 0;
 
   ngOnInit(): void {
     this._AuthService.decodeUser();
@@ -28,6 +29,7 @@ export class NavMainComponent {
     this._AuthService.getNotifications().subscribe(
       (data) => {
         this.notifications = data.result; // Assuming the response has a 'result' property that contains the notifications array
+        this.unreadNotificationsCount = this.notifications.filter((notification) => !notification.isRead).length;
         console.log('Notifications fetched successfully', this.notifications);
       },
       (error) => {
@@ -41,6 +43,23 @@ export class NavMainComponent {
       this._Router.navigate(['/login']);
 
     }
+  }
+
+  markAsRead(notification: any): void {
+    if(!notification.isRead)
+      this._AuthService.updateNotification(notification.id).subscribe({
+    
+        next: (response) => {
+          console.log('Notification updated successfully', response);
+          notification.isRead = true;
+          this.unreadNotificationsCount--;
+        },
+
+        error: (error) => {
+          console.error('Error updating notification', error);
+        }
+      });
+
   }
 
   
