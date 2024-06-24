@@ -1,0 +1,9 @@
+.balance {
+  background-color: #e0f7fa; /* Light cyan background */
+  padding: 10px 20px; /* Padding for spacing */
+  border-radius: 10px; /* Rounded corners */
+  font-weight: bold; /* Bold text */
+  font-size: 1.2em; /* Larger text */
+  text-align: center; /* Center align text */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}

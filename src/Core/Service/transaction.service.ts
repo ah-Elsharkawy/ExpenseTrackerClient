@@ -39,4 +39,8 @@ export class TransactionService {
   getTransactionsByUserId(userId: number): Observable<any> {
     return this._HttpClient.get(`${this.apiUrl}/services/app/Transaction/GetTransactionsByUserId?userId=${userId}`);
   }
+
+  getBalance(userId: number): Observable<any> {
+    return this._HttpClient.get(`${this.apiUrl}/services/app/User/GetBalance?id=${userId}`);
+  }
 }
