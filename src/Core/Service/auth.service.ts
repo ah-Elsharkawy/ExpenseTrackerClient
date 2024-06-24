@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
 import { Observable } from 'rxjs';
@@ -58,6 +58,19 @@ export class AuthService {
   activateAccount(Email :string, token:string) : Observable<any> {
     const payload = { email: Email, token: token };
     return this._HttpClient.post(`${this.apiUrl}/services/app/user/ConfirmEmail`, payload);
+  }
+
+  getNotifications():Observable<any>{
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + this.getToken() // Assuming this.token contains your token
+      })
+    };
+    return this._HttpClient.get(`${this.apiUrl}/services/app/Notification/GetNotifications`, httpOptions);
+  }
+
+  updateNotification(id : number):Observable<any>{
+    return this._HttpClient.put(`${this.apiUrl}/services/app/Notification/updateNotification?notificationId=${id}`, {});
   }
 
 }
