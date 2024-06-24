@@ -1,0 +1,12 @@
+/* styles.css or your component's CSS file */
+.p-dialog-custom {
+    margin: 2rem; /* Adjust margin as needed */
+}
+
+.p-float-label {
+    margin-bottom: 1rem;
+}
+
+.p-float-label input {
+    width: 100%;
+}

@@ -126,6 +126,7 @@ datasets: [
     };
     const [incomeTotal, expenseTotal] = this.insightsService.getYearlyTotalofExpenseAndIncome()
     this.pieData = { labels: ['Income', 'Expense'], datasets: [{ data: [incomeTotal, expenseTotal], backgroundColor: ['#36A2EB', '#FF6384'] }] }  
-    this.noData = false;
+    if(incomeTotal == 0 && expenseTotal == 0){
+      this.noData = true;
   }    
-}
+}}
