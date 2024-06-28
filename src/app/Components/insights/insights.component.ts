@@ -5,8 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ChartModule } from 'primeng/chart';
 import { InsightsService } from '../../../Core/Service/insights.service';
-import { TransactionService } from '../../../Core/Service/transaction.service';
-import { AuthService } from '../../../Core/Service/auth.service';
 
 @Component({
   selector: 'app-insights',
@@ -25,11 +23,7 @@ export class InsightsComponent {
   Lables: string[] = [];
   expenseData: number[] = [];
   incomeData: number[] = [];
-  balance : number = 0;
-  constructor(private insightsService: InsightsService,
-    private _TransactionService: TransactionService,
-    private _AuthService: AuthService
-    ) {
+  constructor(private insightsService: InsightsService) { 
 this.LineDate = {
 labels: [], // Add your labels here
 datasets: [
@@ -61,21 +55,19 @@ datasets: [
   }
 
   ngOnInit() {
-    const userId = this._AuthService.userID;
+
     this.pieData.labels = ['Income', 'Expense'];
-    this._TransactionService.getBalance(userId).subscribe((res) => {
-        this.balance = res.result.balance
-    })
-    this.updateChart()
+    this.updateChart()       
+
   }
   updateChart(){
     if(this.selectedMode == 'Monthly'){
       this.assignMonthlyData()
     }else if(this.selectedMode == 'Yearly'){
       this.assingYearlyData()
-
+    
     }
-
+  
   }
   assignMonthlyData() {
 
@@ -84,17 +76,17 @@ datasets: [
     let currentMonth = new Date().getMonth();
     let currentYear = new Date().getFullYear();
     let days = new Date(currentYear, currentMonth + 1, 0).getDate();
-
+  
     let labels = [];
     let incomeData = [];
     let expenseData = [];
-
+  
     for (let i = 0; i < days; i++) {
       labels.push(`${i+1}`);
       incomeData.push(income[i]);
       expenseData.push(expense[i]);
     }
-
+  
     this.LineDate = {
       labels: labels,
       datasets: [
@@ -114,17 +106,17 @@ datasets: [
   assingYearlyData() {
     let income = this.insightsService.GetAllIncomeTransactions_GroupedByMonth_InCurrentYear();
     let expense = this.insightsService.GetAllExpenseTransactions_GroupedByMonth_InCurrentYear();
-
+  
     let labels = [];
     let incomeData = [];
     let expenseData = [];
-
+  
     for (let i = 0; i < 12; i++) {
       labels.push(`${i+1}`);
       incomeData.push(income[i]);
       expenseData.push(expense[i]);
     }
-
+  
     this.LineDate = {
       labels: labels,
       datasets: [
@@ -133,8 +125,8 @@ datasets: [
       ]
     };
     const [incomeTotal, expenseTotal] = this.insightsService.getYearlyTotalofExpenseAndIncome()
-    this.pieData = { labels: ['Income', 'Expense'], datasets: [{ data: [incomeTotal, expenseTotal], backgroundColor: ['#36A2EB', '#FF6384'] }] }
+    this.pieData = { labels: ['Income', 'Expense'], datasets: [{ data: [incomeTotal, expenseTotal], backgroundColor: ['#36A2EB', '#FF6384'] }] }  
     if(incomeTotal == 0 && expenseTotal == 0){
       this.noData = true;
-  }
+  }    
 }}

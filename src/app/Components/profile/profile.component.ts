@@ -22,14 +22,14 @@ export class UserProfileComponent implements OnInit {
   errorMsg : string = '';
   errorPass : string = '';
   userId: any;
-
+  userEmail:string = "";
   constructor(
     private fb: FormBuilder,
     private _ProfileDataService: ProfileDataService,
     private _AuthService: AuthService
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.profileForm = this.fb.group({
       id: [{ value: '', disabled: true }],
       name: [{ value: '', disabled: true }],
@@ -69,8 +69,9 @@ export class UserProfileComponent implements OnInit {
         .subscribe({
           next: (data) => {
             console.log('Profile updated successfully', data);
+            this._AuthService.userEmail.next(this.profileForm.value.emailAddress);
             this.isEditing = false;
-            this.profileForm.disable();
+            this.profileForm.disable();            
           },
           error: (err) => {
             console.error('Error updating profile', err);

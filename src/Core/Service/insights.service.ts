@@ -15,13 +15,13 @@ export class InsightsService {
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   getTransactions(): Observable<any[]> {
-    const userId = this.authService.getUserId();
+    const userId = this.authService.getUserId(); 
     const params = new HttpParams().set('userId', userId);
 
     return this.http.get<any>(this.apiUrl, { params }).pipe(
       map(response => {
         if (response && response.success) {
-          return response.result || [];
+          return response.result || []; 
         } else {
           throw new Error('Failed to fetch transactions');
         }
@@ -30,11 +30,11 @@ export class InsightsService {
   }
     GetAllExpenseTransactions_GroupedByMonth_InCurrentYear() {
         // i need only an array conatining the total expense for each month in the current year
-
+        
       this.getTransactions().subscribe(transactions => {
         this.transactions = transactions;
       })
-
+        
         let totalExpense = 0;
         let currentYear = new Date().getFullYear();
         let months = new Array(12).fill(0);
@@ -71,8 +71,8 @@ export class InsightsService {
         return months;
 
     }
-
-
+    
+    
     GetAllIncomeTransactions_GroupedByDays_InCurrentMonth() {
       this.getTransactions().subscribe(transactions => {
         this.transactions = transactions;
@@ -94,12 +94,12 @@ export class InsightsService {
         console.log("GetAllIncomeTransactions_GroupedByDays_InCurrentMonth", daysIncome);
         return daysIncome;
 
-
+      
     }
     GetAllExpenseTransactions_GroupedByDays_InCurrentMonth() {
       this.getTransactions().subscribe(transactions => {
         this.transactions = transactions;
-      })
+      }) 
         let currentMonth = new Date().getMonth();
         let currentYear = new Date().getFullYear();
         let days = new Date(currentYear, currentMonth + 1, 0).getDate();
@@ -116,7 +116,7 @@ export class InsightsService {
         console.log("GetAllExpenseTransactions_GroupedByDays", daysExpense);
         return daysExpense;
 
-
+      
     }
     // total income and expense for the current month returned in an array of 2 elements
     getMonthlyTotalofExpenseAndIncome(){
