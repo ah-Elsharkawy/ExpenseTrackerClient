@@ -26,6 +26,7 @@ const routes: Routes = [
     {path : "profile" , /*canActivate : [authGuard] ,*/ loadComponent:()=> import("./Components/profile/profile.component").then(m=>m.UserProfileComponent)} ,
     {path : "expense" , /*canActivate : [authGuard] ,*/ loadComponent:()=> import("./Components/combined-expense/combined-expense.component").then(m=>m.CombinedExpenseComponent)} ,
     {path : "recurrence" , /*canActivate : [authGuard] ,*/ loadComponent:()=> import("./Components/recurrence/recurrence.component").then(m=>m.RecurrenceComponent)} ,
+    {path : "budget" , /*canActivate : [authGuard] ,*/ loadComponent:()=> import("./Components/budget-limit/budget-limit.component").then(m=>m.BudgetLimitComponent)} ,
   ]} ,
 
   {path : "**" , loadComponent:()=> import("./Components/notfound/notfound.component").then(m=>m.NotfoundComponent)} ,

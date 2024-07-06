@@ -1,0 +1,54 @@
+<div class="container flex justify-content-center">
+    <p-button (click)="showDialog()" label="Add Budget limit" class="w-100"></p-button>
+  </div>
+  
+  <p-table #dt [value]="budgets" [rows]="10" [paginator]="true" [globalFilterFields]="['Name', 'LimitType']"
+    [tableStyle]="{ 'min-width': '75rem' }" [rowHover]="true" dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+  
+    <ng-template pTemplate="header">
+      <tr>
+       
+        <th pSortableColumn="Name" style="min-width:15rem">Name <p-sortIcon field="Name"></p-sortIcon></th>
+        <th pSortableColumn="AmountSpent">Amount Spent <p-sortIcon field="AmountSpent"></p-sortIcon></th>
+        <th pSortableColumn="LimitAmount" style="min-width:10rem">Limit Amount <p-sortIcon field="LimitAmount"></p-sortIcon>
+        </th>
+        <th pSortableColumn="LimitType" style="min-width:10rem">Limit Type <p-sortIcon field="LimitType"></p-sortIcon></th>
+        <th>Actions</th>
+        <th>Status</th>
+      </tr>
+    </ng-template>
+  
+    <ng-template pTemplate="body" let-budget>
+      <tr>
+        
+        <td>{{budget.name}}</td>
+        <td>{{budget.amountSpent | currency:'USD'}}</td>
+        <td>{{budget.limitAmount | currency:'USD'}}</td>
+        <td>{{budget.limitType | LimitTypePipe}}</td>
+        <td>
+          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+            (click)="editBudget(budget.id)"></button>
+          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+            (click)="deleteBudget(budget.id)"></button>
+        </td>
+        <td>
+        <i class="pi pi-check" *ngIf="budget.amountSpent <= budget.limitAmount"></i>
+        <i class="pi pi-exclamation-triangle" *ngIf="budget.amountSpent > budget.limitAmount"></i>
+        </td>
+      </tr>
+    </ng-template>
+  
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        In total there are {{budgets ? budgets.length : 0 }} budgets.
+      </div>
+    </ng-template>
+  
+  </p-table>
+  
+
+  <app-budgetlimit-form *ngIf="visible == true" [BudgetToEdit]="BudgetToEdit" [mode]="mode" [visible]="true" (formClose)="handleFormClose()"
+  (formSave)="handleFormSave()">
+</app-budgetlimit-form>
+  
