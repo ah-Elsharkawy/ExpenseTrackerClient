@@ -84,7 +84,9 @@ export class BudgetLimitComponent implements OnInit {
   }
 
   handleFormSave() {
-    
+    this.usercategoryService.getBudgets().subscribe((data) => {
+      this.budgets = data.result;
+    })
     this.visible = false;
   }
 }
