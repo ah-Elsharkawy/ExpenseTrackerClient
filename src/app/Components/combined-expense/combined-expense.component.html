@@ -110,6 +110,20 @@
                     id="amount"
                     formControlName="amount"
                   />
+                  <div
+                    class="alert alert-danger text-sm"
+                    *ngIf="
+                      expenseForm.get('amount')?.errors &&
+                      expenseForm.get('amount')?.touched
+                    "
+                  >
+                    <p *ngIf="expenseForm.get('amount')?.getError('required')">
+                      Amount is required
+                    </p>
+                    <p *ngIf="expenseForm.get('amount')?.getError('min')">
+                      Amount must be greater than 0
+                    </p>
+                  </div>
                 </div>
                 <div class="form-group">
                   <label for="type">Type</label>
@@ -152,11 +166,30 @@
                     class="form-control"
                     rows="3"
                   ></textarea>
+                  <div
+                    class="alert alert-danger text-sm"
+                    *ngIf="
+                      expenseForm.get('description')?.errors &&
+                      expenseForm.get('description')?.touched
+                    "
+                  >
+                    <p
+                      *ngIf="
+                        expenseForm.get('description')?.getError('required')
+                      "
+                    >
+                      description is required
+                    </p>
+                    <p *ngIf="expenseForm.get('description')?.getError('min')">
+                      Amount must be greater than 5 characters
+                    </p>
+                  </div>
                 </div>
                 <button
                   data-bs-dismiss="modal"
                   type="submit"
                   class="btn btn-primary mt-3"
+                  [disabled]="!expenseForm.valid"
                 >
                   Submit
                 </button>
@@ -241,6 +274,20 @@
                     id="amount"
                     formControlName="amount"
                   />
+                  <div
+                    class="alert alert-danger text-sm"
+                    *ngIf="
+                      expenseForm.get('amount')?.errors &&
+                      expenseForm.get('amount')?.touched
+                    "
+                  >
+                    <p *ngIf="expenseForm.get('amount')?.getError('required')">
+                      amount is required
+                    </p>
+                    <p *ngIf="expenseForm.get('amount')?.getError('min')">
+                      Amount must be greater than 0
+                    </p>
+                  </div>
                 </div>
                 <div class="form-group">
                   <label for="type">Type</label>
@@ -283,11 +330,30 @@
                     class="form-control"
                     rows="3"
                   ></textarea>
+                  <div
+                    class="alert alert-danger text-sm"
+                    *ngIf="
+                      expenseForm.get('description')?.errors &&
+                      expenseForm.get('description')?.touched
+                    "
+                  >
+                    <p
+                      *ngIf="
+                        expenseForm.get('description')?.getError('required')
+                      "
+                    >
+                      description is required
+                    </p>
+                    <p *ngIf="expenseForm.get('description')?.getError('min')">
+                      Amount must be greater than 5 characters
+                    </p>
+                  </div>
                 </div>
                 <button
                   data-bs-dismiss="modal"
                   type="submit"
                   class="btn btn-primary mt-3"
+                  [disabled]="!updateForm.valid"
                 >
                   Update
                 </button>

@@ -4,6 +4,7 @@ import {  Router, RouterLink } from '@angular/router';
 import { SideBarComponent } from '../side-bar/side-bar.component';
 import { AuthService } from '../../../Core/Service/auth.service';
 import { DialogModule } from 'primeng/dialog';
+import { Subscription } from 'rxjs';
 
 //import * as bootstrap from "bootstrap";
 
@@ -19,13 +20,17 @@ export class NavMainComponent {
   constructor(private _Router : Router , private _AuthService : AuthService) {
   }
 
-  userEmail : string = "";
+  userEmail : any = "";
   notifications : any[] = [];
   unreadNotificationsCount : number = 0;
+  emailSubscription!: Subscription;
 
   ngOnInit(): void {
     this._AuthService.decodeUser();
-    this.userEmail = this._AuthService.userInfo["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"];
+    //this.userEmail = this._AuthService.userInfo["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"];
+    this.emailSubscription = this._AuthService.userEmail.subscribe((email) => {
+      this.userEmail = email;
+    });
     this._AuthService.getNotifications().subscribe(
       (data) => {
         this.notifications = data.result; // Assuming the response has a 'result' property that contains the notifications array

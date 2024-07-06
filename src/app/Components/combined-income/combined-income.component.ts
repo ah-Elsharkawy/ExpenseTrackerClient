@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -47,20 +52,26 @@ export class CombinedIncomeComponent implements OnInit {
 
   incomeForm: FormGroup = new FormGroup({
     category: new FormControl({ value: '', disabled: true }),
-    amount: new FormControl(''),
+    amount: new FormControl('', [Validators.required, Validators.min(1)]),
     type: new FormControl(0),
     duration: new FormControl(''),
     date: new FormControl(''),
-    description: new FormControl(''),
+    description: new FormControl('', [
+      Validators.required,
+      Validators.minLength(5),
+    ]),
   });
 
   updateForm = new FormGroup({
     category: new FormControl({ value: '', disabled: true }),
-    amount: new FormControl(''),
+    amount: new FormControl('', [Validators.required, Validators.min(1)]),
     type: new FormControl(''),
     duration: new FormControl(''),
     date: new FormControl(''),
-    description: new FormControl(''),
+    description: new FormControl('', [
+      Validators.required,
+      Validators.minLength(5),
+    ]),
   });
 
   selectedTransaction: any;
@@ -69,11 +80,13 @@ export class CombinedIncomeComponent implements OnInit {
   openUpdateModal(transaction: any) {
     this.selectedTransaction = transaction;
     this.selectedType = transaction.typeName;
-    const category = this.categories.find(cat => cat.id === transaction.categoryId);
+    const category = this.categories.find(
+      (cat) => cat.id === transaction.categoryId
+    );
     this.selectedCategory = category;
     this.selectedCategoryId = category?.id || null;
     this.selectedCategoryName = category?.name || '';
-    
+
     console.log('Selected Transaction:', transaction);
     console.log('Selected Type:', this.selectedType);
     console.log('Selected Category:', this.selectedCategory);
@@ -139,7 +152,9 @@ export class CombinedIncomeComponent implements OnInit {
     this.userId = this._AuthService.getUserId();
     this._TransactionService.getTransactions(this.userId).subscribe((data) => {
       this.transactions = data.result.map((transaction: any) => {
-        const category = this.categories.find(cat => cat.id === transaction.categoryId);
+        const category = this.categories.find(
+          (cat) => cat.id === transaction.categoryId
+        );
         return {
           ...transaction,
           categoryName: category ? category.name : 'Unknown Category',
@@ -161,24 +176,26 @@ export class CombinedIncomeComponent implements OnInit {
   }
 
   handleSubmit() {
-    const formValue = this.incomeForm.value;
-    formValue.type = this.getEnumValue(formValue.type);
-    formValue.date = new Date().toISOString();
-    formValue.categoryId = this.selectedCategoryId;
+    if (this.incomeForm.valid) {
+      const formValue = this.incomeForm.value;
+      formValue.type = this.getEnumValue(formValue.type);
+      formValue.date = new Date().toISOString();
+      formValue.categoryId = this.selectedCategoryId;
 
-    this._TransactionService.addTransaction(formValue).subscribe({
-      next: (res) => {
-        console.log('Transaction added', res);
-        this.loadTransactions();
-        this.incomeForm.reset();
-        this.selectedCategoryName = '';
-        this.selectedCategoryId = null;
-        this.showContent = false;
-      },
-      error: (err) => {
-        console.error('Error adding transaction', err);
-      },
-    });
+      this._TransactionService.addTransaction(formValue).subscribe({
+        next: (res) => {
+          console.log('Transaction added', res);
+          this.loadTransactions();
+          this.incomeForm.reset();
+          this.selectedCategoryName = '';
+          this.selectedCategoryId = null;
+          this.showContent = false;
+        },
+        error: (err) => {
+          console.error('Error adding transaction', err);
+        },
+      });
+    }
   }
 
   getEnumValue(type: string): any {
@@ -193,29 +210,34 @@ export class CombinedIncomeComponent implements OnInit {
   }
 
   updateTransaction() {
-    this.selectedTransaction.categoryId = this.selectedCategoryId;
-    this.selectedTransaction.categoryName = this.selectedCategoryName;
-    this.selectedTransaction.amount = this.updateForm.get('amount')?.value;
-    this.selectedTransaction.description = this.updateForm.get('description')?.value;
-    this.selectedTransaction.date = this.updateForm.get('date')?.value;
-    
-    this._TransactionService.updateTransaction(this.selectedTransaction).subscribe({
-      next: (res) => {
-        console.log('Transaction updated', res);
-        Swal.fire({
-          title: "Good job!",
-          text: "You have been updated income successfully!",
-          icon: "success"
+    if (this.updateForm.valid) {
+      this.selectedTransaction.categoryId = this.selectedCategoryId;
+      this.selectedTransaction.categoryName = this.selectedCategoryName;
+      this.selectedTransaction.amount = this.updateForm.get('amount')?.value;
+      this.selectedTransaction.description =
+        this.updateForm.get('description')?.value;
+      this.selectedTransaction.date = this.updateForm.get('date')?.value;
+
+      this._TransactionService
+        .updateTransaction(this.selectedTransaction)
+        .subscribe({
+          next: (res) => {
+            console.log('Transaction updated', res);
+            Swal.fire({
+              title: 'Good job!',
+              text: 'You have been updated income successfully!',
+              icon: 'success',
+            });
+            this.loadTransactions();
+            this.updateForm.reset();
+            this.selectedCategoryName = '';
+            this.selectedCategoryId = null;
+          },
+          error: (err) => {
+            console.error('Error updating transaction', err);
+          },
         });
-        this.loadTransactions();
-        this.updateForm.reset();
-        this.selectedCategoryName = '';
-        this.selectedCategoryId = null;
-      },
-      error: (err) => {
-        console.error('Error updating transaction', err);
-      },
-    });    
+    }
   }
 
   getTypeName(type: number): string {
