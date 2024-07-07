@@ -136,4 +136,10 @@ export class BudgetlimitFormComponent implements OnInit {
   onClose() {
     this.formClose.emit();
   }
+  validateForm(){
+    if(this.usercategory.categoryId === 0 || this.usercategory.amount === 0 || this.usercategory.limitType === 0){
+      return false;
+    }
+    return true;
+  }
 }
