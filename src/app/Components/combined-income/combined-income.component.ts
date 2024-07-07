@@ -43,6 +43,7 @@ export class CombinedIncomeComponent implements OnInit {
   selectedCategoryId: number | null = null;
   selectedCategoryName: string = '';
   selectedCategoryIcon: string = '';
+  isCategorySelected: boolean = false;
 
   constructor(
     private _AuthService: AuthService,
@@ -169,6 +170,8 @@ export class CombinedIncomeComponent implements OnInit {
       (category) => category.id === id
     );
     this.selectedCategoryName = selectedCategory?.name || '';
+
+    this.isCategorySelected = !!selectedCategory;
 
     if (selectedCategory) {
       this._CategoryService.setCategoryId(id);

@@ -1,36 +1,58 @@
 <div class="container">
-  <div class="row">
-    <div class="col-12 col-md-4 mb-4">
-      <mat-card class="example-card text-center shadow-3 rounded-3" appearance="outlined">
-        <mat-card-header class="flex justify-content-center">
-          <mat-card-title style="color: blue; text-align: center;">${{totalIncome}}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <p style="text-align: center;">Income</p>
-        </mat-card-content>
-      </mat-card>
-    </div>
+  <div class="user-info-section p-4 mb-4">
+    <fieldset>
+      <legend class="text-left mb-4">User Info</legend>
+      <hr />
 
-    <div class="col-12 col-md-4 mb-4">
-      <mat-card class="example-card text-center shadow-3 rounded-3" appearance="outlined">
-        <mat-card-header class="flex justify-content-center">
-          <mat-card-title style="color: red; text-align: center;">${{totalExpense}}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <p style="text-align: center;">Expense</p>
-        </mat-card-content>
-      </mat-card>
-    </div>
+      <div class="row">
+        <div class="col-12 col-md-4 mb-4">
+          <mat-card
+            class="example-card text-center shadow rounded-3"
+            appearance="outlined"
+          >
+            <mat-card-header class="d-flex justify-content-center">
+              <mat-card-title class="text-primary text-center"
+                >${{ totalIncome }}</mat-card-title
+              >
+            </mat-card-header>
+            <mat-card-content>
+              <p class="text-center">Income</p>
+            </mat-card-content>
+          </mat-card>
+        </div>
 
-    <div class="col-12 col-md-4 mb-4">
-      <mat-card class="example-card text-center shadow-3 rounded-3" appearance="outlined">
-        <mat-card-header class="flex justify-content-center">
-          <mat-card-title style="color: green; text-align: center;">${{balance}}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <p style="text-align: center;">Balance</p>
-        </mat-card-content>
-      </mat-card>
-    </div>
+        <div class="col-12 col-md-4 mb-4">
+          <mat-card
+            class="example-card text-center shadow rounded-3"
+            appearance="outlined"
+          >
+            <mat-card-header class="d-flex justify-content-center">
+              <mat-card-title class="text-danger text-center"
+                >${{ totalExpense }}</mat-card-title
+              >
+            </mat-card-header>
+            <mat-card-content>
+              <p class="text-center">Expense</p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <div class="col-12 col-md-4 mb-4">
+          <mat-card
+            class="example-card text-center shadow rounded-3"
+            appearance="outlined"
+          >
+            <mat-card-header class="d-flex justify-content-center">
+              <mat-card-title class="text-success text-center"
+                >${{ balance }}</mat-card-title
+              >
+            </mat-card-header>
+            <mat-card-content>
+              <p class="text-center">Balance</p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </fieldset>
   </div>
 </div>

@@ -45,6 +45,7 @@ export class CombinedExpenseComponent {
   selectedCategoryName: string = '';
   selectedTransaction: any;
   selectedType: string = '';
+  isCategorySelected: boolean = false;
 
   constructor(
     private _AuthService: AuthService,
@@ -188,7 +189,7 @@ export class CombinedExpenseComponent {
       (category) => category.id === id
     );
     this.selectedCategoryName = selectedCategory?.name || '';
-
+    this.isCategorySelected = !!selectedCategory;
     if (selectedCategory) {
       this._CategoryService.setCategoryId(id);
     }
