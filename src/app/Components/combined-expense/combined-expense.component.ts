@@ -56,7 +56,7 @@ export class CombinedExpenseComponent {
   expenseForm: FormGroup = new FormGroup({
     category: new FormControl({ value: '', disabled: true }),
     amount: new FormControl('', [Validators.required, Validators.min(1)]),
-    type: new FormControl(1),
+    type: new FormControl({ value: 'fixed', disabled: true }),
     duration: new FormControl(''),
     date: new FormControl(''),
     description: new FormControl('', [
@@ -68,7 +68,7 @@ export class CombinedExpenseComponent {
   updateForm: FormGroup = new FormGroup({
     category: new FormControl({ value: '', disabled: true }),
     amount: new FormControl('', [Validators.required, Validators.min(1)]),
-    type: new FormControl(1),
+    type: new FormControl({ value: 'fixed', disabled: true }),
     duration: new FormControl(''),
     date: new FormControl(''),
     description: new FormControl('', [
@@ -112,7 +112,7 @@ export class CombinedExpenseComponent {
 
   openUpdateModal(transaction: any): void {
     this.selectedTransaction = transaction;
-    this.selectedType = transaction.typeName;
+    this.selectedType = this.getTypeName(transaction.type);
     const category = this.categories.find(
       (cat) => cat.id === transaction.categoryId
     );
@@ -126,7 +126,7 @@ export class CombinedExpenseComponent {
     this.updateForm.patchValue({
       category: transaction.categoryName,
       amount: transaction.amount,
-      type: 1,
+      type: this.selectedType,
       duration: transaction.duration,
       date: transaction.date,
       description: transaction.description,
@@ -218,14 +218,7 @@ export class CombinedExpenseComponent {
       });
     }
   }
-  //   getEnumValue(type: string): any {
-  //     switch (type) {
-  //       case 'fixed':
-  //         return 0;
-  //       case 'recurrence':
-  //         return 1;
-  //       default:
-  //         return -1;
-  //     }
-  // }
+  getTypeName(type: number): string {
+    return type === 0 ? 'Fixed' : 'Recurrence';
+  }
 }

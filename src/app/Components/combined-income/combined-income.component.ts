@@ -54,7 +54,7 @@ export class CombinedIncomeComponent implements OnInit {
   incomeForm: FormGroup = new FormGroup({
     category: new FormControl({ value: '', disabled: true }),
     amount: new FormControl('', [Validators.required, Validators.min(1)]),
-    type: new FormControl(0),
+    type: new FormControl({ value: 'fixed', disabled: true }),
     duration: new FormControl(''),
     date: new FormControl(''),
     description: new FormControl('', [
@@ -66,7 +66,7 @@ export class CombinedIncomeComponent implements OnInit {
   updateForm = new FormGroup({
     category: new FormControl({ value: '', disabled: true }),
     amount: new FormControl('', [Validators.required, Validators.min(1)]),
-    type: new FormControl(''),
+    type: new FormControl({ value: 'fixed', disabled: true }),
     duration: new FormControl(''),
     date: new FormControl(''),
     description: new FormControl('', [
@@ -79,8 +79,12 @@ export class CombinedIncomeComponent implements OnInit {
   selectedType: string = '';
 
   openUpdateModal(transaction: any) {
+    console.log('Transaction:', transaction);
+    
     this.selectedTransaction = transaction;
-    this.selectedType = transaction.typeName;
+    this.selectedType = this.getTypeName(transaction.type);
+    console.log('Selected Type:', this.selectedType);
+    
     const category = this.categories.find(
       (cat) => cat.id === transaction.categoryId
     );
@@ -95,7 +99,7 @@ export class CombinedIncomeComponent implements OnInit {
     this.updateForm.patchValue({
       category: this.selectedCategoryName,
       amount: transaction.amount,
-      type: transaction.typeName,
+      type: this.selectedType,
       duration: transaction.duration,
       date: transaction.date,
       description: transaction.description,
@@ -138,9 +142,6 @@ export class CombinedIncomeComponent implements OnInit {
   ngOnInit(): void {
     this.loadCategories();
     this.loadTransactions();
-    this.incomeForm.get('type')?.valueChanges.subscribe((value) => {
-      this.showContent = value === 'recurrence';
-    });
   }
 
   loadCategories() {
@@ -181,7 +182,6 @@ export class CombinedIncomeComponent implements OnInit {
   handleSubmit() {
     if (this.incomeForm.valid) {
       const formValue = this.incomeForm.value;
-      formValue.type = this.getEnumValue(formValue.type);
       formValue.date = new Date().toISOString();
       formValue.categoryId = this.selectedCategoryId;
 
@@ -201,16 +201,7 @@ export class CombinedIncomeComponent implements OnInit {
     }
   }
 
-  getEnumValue(type: string): any {
-    switch (type) {
-      case 'fixed':
-        return 0;
-      case 'recurrence':
-        return 1;
-      default:
-        return -1;
-    }
-  }
+
 
   updateTransaction() {
     if (this.updateForm.valid) {
